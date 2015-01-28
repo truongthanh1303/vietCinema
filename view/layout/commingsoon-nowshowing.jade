@@ -1,0 +1,55 @@
+extends headfilm
+block content
+	#showCommingSoonMovie.row
+		hr/
+		.col-sm-8.col-md-8.col-lg-8.col-sm-offset-2.col-md-offset-2.col-lg-offset-2
+			.col-sm-4.col-md-4.col-lg-4
+				div.btn-group(role="group")#company_select
+					button.btn.btn-default.content-dropdown-button.head-select-title(type="button", data-toggle="dropdown", aria-expanded="false")= dataMovie[0].company.toUpperCase() + " cinema"
+					button.btn.btn-info.dropdown-toggle.caret-dropdown-button(type="button", data-toggle="dropdown", aria-expanded="false")
+						span.caret
+						span.sr-only Dropdown Toggle
+					ul.dropdown-menu(role="menu")
+						- for(var i in _company)
+							li: a(href="javascript:void(0)", data-url=_company[i])= _company[i].toUpperCase()+" cinema"
+						//- li: a(href="javascript:void(0)", data-url="GL") Galaxy
+						//- li: a(href="") Platinum
+			//.col-sm-6.col-md-6.col-lg-6
+				div.btn-group(role="group")#cineplex_select
+					button.btn.btn-default.content-dropdown-button.head-select-title(type="button", data-toggle="dropdown", aria-expanded="false") Rap
+					button.btn.btn-info.dropdown-toggle.caret-dropdown-button(type="button", data-toggle="dropdown", aria-expanded="false")
+						span.caret
+						span.sr-only Dropdown Toggle
+					ul.dropdown-menu#cineplexs_item(role="menu")
+						//- li: a(href="") Galaxy
+						//- li: a(href="") Platinum
+			.col-sm-2.col-md-2.col-lg-2
+				button.btn.btn-default.btn-change#get_list_film_cineplex(type="button") Go
+			.col-sm-6.col-md-6.col-lg-6
+				input#company(type="hidden")
+		.clearfix
+		hr/
+		#listFilm
+			- if(typeof dataMovie != 'undefined')
+				h1= typeOffilm+" CỤM RẠP " + dataMovie[0]["company"].toUpperCase()
+				-var idhref, intro;
+				- if(typeOffilm == "PHIM ĐANG CHIẾU"){typeOffilm = "onScreenMovie";} else {typeOffilm = "commingSoonMovie";}
+				input#type_of_film(type="hidden", value=typeOffilm)
+				.content-list-film
+					- for(var _obj in dataMovie)
+						- idhref = _host+"/detailMovie/"+typeOffilm+"/"+ dataMovie[0]["company"] + "/" + dataMovie[_obj]["_id"];
+						- if(typeof dataMovie[_obj]["intro"] == "undefined" || dataMovie[_obj]["intro"] == null){intro =  "Have not intro yet..."}else{ intro = dataMovie[_obj]["intro"].replace(/&nbsp;/, ' ').substr(0, 100) + "..."};
+						.col-sm-3.col-md-3.col-lg-3
+							.thumbnail
+								img(src= dataMovie[_obj]["image"], alt="")
+							.movieTitle
+								h3: a(href= idhref , target="_blank")= dataMovie[_obj]["name"]
+							.small-info
+								span= intro
+						- if(parseInt((parseInt(_obj)+1)%4) == 0)
+							.clearfix
+							hr/
+	hr/
+	//footer
+	.footer.row
+		include footer

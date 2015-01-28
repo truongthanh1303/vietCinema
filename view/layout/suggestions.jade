@@ -1,0 +1,548 @@
+extends headfilm
+block headHtml
+	script(type="text/javascript", src="/library/jquery.pajinate.min.js")
+	link(rel="stylesheet", type="text/css", href="/css/suggestions.css")
+block content
+	#suggestions
+		br/
+		h1 GỢI Ý PHIM
+		hr/
+		.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2.find-query
+			input#find-query.form-control(type="text", placeholder='Dien vien, dao dien, phim, the loai...')
+			br/
+		.clearfix
+		.search_advance
+			p: strong Tìm kiếm nâng cao <span class='glyphicon glyphicon-chevron-down'></span>
+		.content_search_advance
+			hr/
+			.row1
+				div.option-player.col-md-3.col-lg-3
+					div.option-player-header.text-center
+						label
+							input#player-enable(type='checkbox',checked)
+							= "Tìm Theo Diễn Viên"
+						|&nbsp;&nbsp;&nbsp;
+						span.glyphicon.glyphicon-arrow-down
+					div.option-player-content
+							input#player-user.form-control(type='text', placeholder='Tên Diễn Viên')
+				div.option-director.col-md-3.col-lg-3
+					div.option-director-header.text-center
+						label
+							input#director-enable(type='checkbox',checked)
+							= "Tìm Theo Đạo Diễn"
+						|&nbsp;&nbsp;&nbsp;
+						span.glyphicon.glyphicon-arrow-down
+					div.option-director-content
+							input#director-user.form-control(type='text', placeholder='Tên Đạo Diễn')
+				div.option-location.col-md-3.col-lg-3
+					div.option-location-header.text-center
+						label
+							input#location-enable(type='checkbox',checked)
+							= "Tìm Theo Vị Trí"
+						|&nbsp;&nbsp;&nbsp;
+						span.glyphicon.glyphicon-arrow-down
+					div.option-location-content
+							input#location-user.form-control(type='text', placeholder="Vị Trí Của Bạn")
+							label
+								input#radius-enable(type='checkbox',checked)
+								= "Bán Kính (km)"
+							input#radius-user.form-control(type='text', placeholder="Bán Kính (km)" value='50')
+				div.option-age.col-md-3.col-lg-3
+					div.option-age-header.text-center
+						label
+							input#age-enable(type='checkbox',checked)
+							= "Tìm theo độ tuổi"
+						|&nbsp;&nbsp;&nbsp;
+						span.glyphicon.glyphicon-arrow-down
+					div.option-age-content
+							input#age-user.form-control(type='text', placeholder="Nhập năm sinh")
+			.clearfix
+			hr/
+			div.option-jobs.col-md-12.col-lg-12
+				div.option-jobs-header
+					label
+						input#jobs-enable(type='checkbox',checked)
+						= "Tìm theo nhóm nghề"
+					|&nbsp;&nbsp;&nbsp;
+					span.glyphicon.glyphicon-arrow-down
+				div.option-jobs-content
+						- for (var i = 0; i < job_arr.length; i++)
+							- if(i % 2 == 0)
+								.list-group-item.list-group-item-info.col-md-2.col-lg-2
+									- if(user['job'].indexOf(job_arr[i])!=-1)
+										input(type='checkbox',value=job_arr[i],checked,name='job')
+										=  job_arr[i]
+									- else
+										input(type='checkbox',value=job_arr[i],name='job')
+										=  job_arr[i]
+							- else
+								.list-group-item.col-md-2.col-lg-2
+									- if(user['job'].indexOf(job_arr[i])!=-1)
+										input(type='checkbox',value=job_arr[i],checked,name='job')
+										=  job_arr[i]
+									- else
+										input(type='checkbox',value=job_arr[i],name='job')
+										=  job_arr[i]
+			.clearfix
+			hr/
+			div.option-kind.col-md-12.col-lg-12
+				div.option-kind-header
+					label
+						input#kind-enable(type='checkbox',checked)
+						= "Tìm Theo Thể Loại"
+					|&nbsp;&nbsp;&nbsp;
+					span.glyphicon.glyphicon-arrow-down
+				div.option-kind-content
+					- for(var i = 0 ; i < kind_arr.length ; i++)
+						-if(i % 2 == 0)
+							.list-group-item.list-group-item-info.col-md-2.col-lg-2
+								- if(user['favorite-kind'].indexOf(kind_arr[i])!=-1)
+									input(type='checkbox',value=kind_arr[i],checked,name='kind')= kind_arr[i]
+									= kind_arr[i]
+								- else
+									input(type='checkbox',value=kind_arr[i],name='kind')= kind_arr[i]
+									= kind_arr[i]
+							-if((i+1)%6 == 0)
+								.clearfix
+						-else
+							.list-group-item.col-md-2.col-lg-2
+								- if(user['favorite-kind'].indexOf(kind_arr[i])!=-1)
+									input(type='checkbox',value=kind_arr[i],checked,name='kind')
+									= kind_arr[i]
+								- else
+									input(type='checkbox',value=kind_arr[i],name='kind')
+									= kind_arr[i]
+							-if((i+1)%6 == 0)
+								.clearfix
+			.clearfix
+			hr/
+			div.option-cinema.col-md-12.col-lg-12
+				div.option-cinema-header
+					label
+						input#cinema-enable(type='checkbox',checked)
+						= "Tìm Theo Rạp "
+					|&nbsp;&nbsp;&nbsp;
+					span.glyphicon.glyphicon-arrow-down
+				div.option-cinema-content
+					ul (Click vào cụm rạp để ẩn/hiện danh sách)
+						- for (var i in cinema_arr)
+							li
+								div.company= i.toUpperCase()
+									em.pull-left
+										input(type="checkbox", value= i, name='cineplex')
+								.list-company
+									- for (var j in cinema_arr[i])
+										-if(j % 2 == 0)
+											.list-group-item.list-group-item-info.col-md-6.col-lg-6
+												- if(user['favorite-cinema'].indexOf(cinema_arr[i][j])!=-1)
+													input.cinema(type='checkbox',value=cinema_arr[i][j],checked,name='cinema')
+													= cinema_arr[i][j]
+												-else
+													- if (cinema_arr[i][j]=="DongNai" && user['favorite-cinema'].indexOf("Biên Hòa")!=-1)
+														input.cinema(type='checkbox',value=cinema_arr[i][j],checked,name='cinema')
+														= cinema_arr[i][j]
+													- else if (cinema_arr[i][j]=="PhuTho" && user['favorite-cinema'].indexOf("Phú Thọ (Q11)")!=-1)
+														input.cinema(type='checkbox',value=cinema_arr[i][j],checked,name='cinema')
+														= cinema_arr[i][j]
+													- else
+														input.cinema(type='checkbox',value=cinema_arr[i][j],name='cinema')
+														= cinema_arr[i][j]
+											- if(parseInt(parseInt(j)+1)%2 == 0)
+												.clearfix
+										-else
+											.list-group-item.col-md-6.col-lg-6
+												- if(user['favorite-cinema'].indexOf(cinema_arr[i][j])!=-1)
+													input.cinema(type='checkbox',value=cinema_arr[i][j],checked,name='cinema')
+													= cinema_arr[i][j]
+												-else
+													- if (cinema_arr[i][j]=="DongNai" && user['favorite-cinema'].indexOf("Biên Hòa")!=-1)
+														input.cinema(type='checkbox',value=cinema_arr[i][j],checked,name='cinema')
+														= cinema_arr[i][j]
+													- else if (cinema_arr[i][j]=="PhuTho" && user['favorite-cinema'].indexOf("Phú Thọ (Q11)")!=-1)
+														input.cinema(type='checkbox',value=cinema_arr[i][j],checked,name='cinema')
+														= cinema_arr[i][j]
+													- else
+														input.cinema(type='checkbox',value=cinema_arr[i][j],name='cinema')
+														= cinema_arr[i][j]
+											- if(parseInt(parseInt(j)+1)%2 == 0)
+												.clearfix
+								.clearfix
+			.clearfix
+		hr/
+		div.option-submit
+			.col-md-2.col-lg-2.col-md-offset-5.col-lg-offset-5
+				button#submit.btn.btn-info(type='button')= "Find"
+		.clearfix
+		hr/
+		#items_paginate.content-list-film.col-sm-10.col-md-10.col-lg-10.col-sm-offset-1.col-md-offset-1.col-lg-offset-1
+			p#notify.alert.alert-warning(role='alert')
+			.col-sm-6.col-md-6.col-lg-6.col-sm-offset-3.col-md-offset-3.col-lg-offset-3.page_navigation.text-center
+			.clearfix
+			br/
+			ul#items.content.col-sm-12.col-md-12.col-lg-12
+			br/
+			br/
+			.col-sm-6.col-md-6.col-lg-6.col-sm-offset-3.col-md-offset-3.col-lg-offset-3.page_navigation.text-center
+				// pagination auto create
+	.clearfix
+	#pop-up
+		#pop-up-background
+		#pop-up-content
+			center
+				img(src='/img/bx_loader.gif')
+			center
+	div#popupSchedule.modal.fade(role='dialog', tabindex="-1")
+		.modal-dialog.modal-sm
+			.modal-content
+				.modal-header
+					p.title
+					p.cineplex
+					button.close(data-dismiss='modal') <span aria-hidden='true'>&times;</span><span class="sr-only">Close</span>
+				.modal-body
+					p One fine body&hellip;
+
+	hr/
+	.footer.row
+		include footer
+
+	script.
+		var longitude = -1;
+		var latitude = -1;
+		function getLocation(callback){
+			if(navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(
+				function(position){
+					hidePopUp();
+					callback({latitude:position.coords.latitude, longitude:position.coords.longitude});
+				},
+				function(error){
+					if(error.code){
+						hidePopUp();
+						if(error.code == error.PERMISSION_DENIED){
+							alert("Bạn Đã Từ Chối Cung Cấp Vị Trí, Để Cung Cấp Vị Trí Vui Lòng Bấm F5");
+						}
+						else{
+							alert("Lỗi Không Lấy Được Vị Trí Vui Lòng Bấm F5");
+						}
+					}
+				});
+			}
+		}
+		getLocation(function(coords){
+			longitude = coords.longitude;
+			latitude = coords.latitude;
+			getAddress(latitude,longitude);
+		});
+		$("#submit").click(function(e){
+			var find_query = $("#find-query").val();
+			var cinema_enable = $("#cinema-enable").prop("checked");
+			var kind_enable = $("#kind-enable").prop("checked");
+			var	location_enable = $("#location-enable").prop("checked");
+			var jobs_enable = $("#jobs-enable").prop("checked");
+			var age_enable = $("#age-enable").prop("checked");
+			var name_enable = $("#name-enable").prop("checked");
+			var director_enable = $("#director-enable").prop("checked");
+			var player_enable = $("#player-enable").prop("checked");
+			var age_user = $("#age-user").val();
+			var name_user = $("#name-user").val();
+			var director_user = $("#director-user").val();
+			var player_user = $("#player-user").val();
+			var radius_user = $("#radius-user").val();
+			var radius_enable = $("#radius-enable").prop("checked");
+			radius_user = isNaN(radius_user)?50:parseInt(radius_user);
+			var cinema_user = $("input[type='checkbox'][name='cinema']:checked").map(function(){
+				return $(this).val();
+			}).get();
+			var kind_user = $("input[type='checkbox'][name='kind']:checked").map(function(){
+				return $(this).val();
+			}).get();
+			var jobs_user = $("input[type='checkbox'][name='job']:checked").map(function(){
+				return $(this).val();
+			}).get();
+			var cineplex_user = $("input[type='checkbox'][name='cineplex']:checked").map(function(){
+				return $(this).val();
+			}).get();
+			if(longitude==-1 && latitude ==-1){
+				if(!confirm("Không Xác Định Được Vị Trí! Tiếp Tục?")){
+					e.preventDefault();
+					return false;
+				}
+			}
+			if(radius_user < 1){
+				alert("Bán Kính không được nhỏ hơn 1");
+				return;
+			}
+			showPopUp("<strong>Đang Lấy Danh Sách Phim</strong>");
+			$.ajax("/rank",{dataType:"json",data:{radius_enable:radius_enable,cineplex_user:cineplex_user,radius_user:radius_user,"find-query":find_query,longitude:longitude,latitude:latitude,cinema_enable:cinema_enable,kind_enable:kind_enable,location_enable:location_enable,jobs_enable:jobs_enable,age_enable:age_enable,name_enable:name_enable,director_enable:director_enable,player_enable:player_enable, cinema_user:cinema_user,kind_user:kind_user,jobs_user:jobs_user,age_user:age_user,name_user:name_user,director_user:director_user,player_user:player_user}}).done(function(data){
+				hidePopUp();
+				if(data.schedule_arr){
+					loadAjaxResult(data);
+				}
+				else{
+					if(data.err && data.err == 1){
+						alert("Không Xác Định Được vị trí, bỏ chọn tìm theo vị trí và tiếp tục");
+					}
+					else{
+						alert("Phiên làm việc hết hạn, vui lòng đăng nhập lại!!!");
+						window.location="/suggestions";
+					}
+				}
+			});
+		});
+
+		function getAddress(latitude,longitude){
+			/*$.ajax("/ajax_getAddress",{dataType:"json",data:{latitude:latitude,longitude:longitude}}).done(function(data){
+				if(data.error){
+					alert("Không Tìm Được Địa Chỉ!");
+				}
+				else{
+					$("#location-user").val(data.address);
+				}
+			});*/
+			addressFromCoord(latitude,longitude,function(err,res){
+				if(err){
+					alert("Không Tìm Được Địa Chỉ!");
+				}
+				else{
+					$("#location-user").val(res);
+				}
+			});
+		};
+
+		function getCoord(address){
+			if(address.length){
+				/*$.ajax("/ajax_getCoord",{dataType:"json",data:{address:address}}).done(function(data){
+					if(data.error){
+						alert("Không Xác Định Được Địa Chỉ!");
+					}
+					else{
+						longitude = data.coord.longitude;
+						latitude = data.coord.latitude;
+						hidePopUp();
+					}
+				});*/
+				coordFromAddress(address,function(err,res){
+					if(err){
+						alert("Không Tìm Được Địa Chỉ!");
+					}
+					else{
+						longitude = res.longitude;
+						latitude = res.latitude;
+						hidePopUp();
+					}
+				});
+			}
+			else{
+				longitude=-1;
+				latitude=-1;
+				alert("Địa Chỉ Trống");
+				hidePopUp();
+			}
+		};
+
+		function showPopUp(msg){
+			$("#pop-up-content center:nth-child(2)").html(msg);
+			$("#pop-up").css("display","block");
+		}
+
+		function hidePopUp(){
+			$("#pop-up").css("display","none");
+		}
+
+		function setDefaultVal(){
+			var user_info = !{JSON.stringify(user)};
+			$("#player-user").val(user_info['favorite-player']);
+			$("#director-user").val(user_info['favorite-director']);
+			$("#age-user").val(user_info['birthday-year']);
+
+		}
+		setDefaultVal();
+		$("#location-user").blur(function(){
+			showPopUp("Xác Định Địa Chỉ Của Bạn...");
+			getCoord($("#location-user").val());
+		});
+		$(".content_search_advance").on('click','span.glyphicon.glyphicon-arrow-up', function(){
+			$(this).attr('class','glyphicon glyphicon-arrow-down').parent().parent().children("div[class$='-content']").toggle("medium");
+		});
+		$(".content_search_advance").on('click','span.glyphicon.glyphicon-arrow-down', function(){
+			$(this).attr('class','glyphicon glyphicon-arrow-up').parent().parent().children("div[class$='-content']").toggle("medium");
+		});
+		//- $("#location-enable").change(function(){
+		//- 	if(!this.checked && $(".option-location-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-location-content").toggle("medium");
+		//- });
+		//- $("#age-enable").change(function(){
+		//- 	if(!this.checked && $(".option-age-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-age-content").toggle("medium");
+		//- });
+		//- $("#jobs-enable").change(function(){
+		//- 	if(!this.checked && $(".option-jobs-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-jobs-content").toggle("medium");
+		//- });
+		//- $("#name-enable").change(function(){
+		//- 	if(!this.checked && $(".option-name-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-name-content").toggle("medium");
+		//- });
+		//- $("#cinema-enable").change(function(){
+		//- 	if(!this.checked && $(".option-cinema-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-cinema-content").toggle("medium");
+		//- });
+		//- $("#kind-enable").change(function(){
+		//- 	if(!this.checked && $(".option-kind-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-kind-content").toggle("medium");
+		//- });
+		//- $("#player-enable").change(function(){
+		//- 	if(!this.checked && $(".option-player-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-player-content").toggle("medium");
+		//- });
+		//- $("#director-enable").change(function(){
+		//- 	if(!this.checked && $(".option-director-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-director-content").toggle("medium");
+		//- });
+		$(".option-cinema-content ul li .company").click(function(event){
+			if(this == event.target){
+				$(this).parent().toggleClass("expanded");
+				$(this).parent().children('div.list-company').toggle("medium");
+			}
+			return;
+		});
+		//- $("#time-enable").change(function(){
+		//- 	if(!this.checked && $(".option-time-content").css('display')=="none"){
+		//- 		return;
+		//- 	}
+		//- 	$(".option-time-content").toggle('medium');
+		//- });
+		function loadAjaxResult(data){
+			$("#notify").empty().css('display','none');
+			$("#items").empty();
+				if(data.suggest){
+					$("#notify").html("Không Tìm Thấy Dữ Liệu Theo Yêu Cầu!! Danh Sách Gợi Ý Của VietCinema").css('display','block');
+				}
+				var count = 3;
+				for(var i = data['schedule_arr'].length-1; i>=0 ; i--){
+					var html = "";
+					count--;
+					html +="<div class='thumbnail'> <img src='" + data['schedule_arr'][i].image + "' alt=''/> <span class ='company_suggestion'>";
+					html += data['schedule_arr'][i].company + " </span> <span class='cineplex_suggestion'>";
+					html += data['schedule_arr'][i].cinema + " </span>";
+					//html += "<span class='distance'><strong>"+ data['schedule_arr'][i].point + "</strong></span> </div>";
+					if(data['schedule_arr'][i].distance && data['schedule_arr'][i].distance > 0){
+						html += "<span class='distance'><strong>"+(data['schedule_arr'][i].distance/1000).toFixed(1) + "km" + "</strong></span> </div>";
+					}
+					else{
+						html += "<span class='distance'><strong>unknow</strong></span> </div>";
+					}
+					html += "<div class='movieTitle'> <h4> <a data-toggle='modal' data-target='#popupSchedule'>";
+					html += data['schedule_arr'][i].movie + "</a></h4>";
+					html += "<div class='schedule-time' style='display:none'>";
+					for (var j in data['schedule_arr'][i]['time-arr']){
+						html+= "<p class='schedule-date'>" + data['schedule_arr'][i]['time-arr'][j].date +"</p>";
+						html+= "<p class='schedule-time'>";
+						for (var k in data['schedule_arr'][i]['time-arr'][j].time){
+							if(k != 0 && k % 5 == 0){
+							html += "<br/>";
+							}
+							html+= "<span class='schedule-time'>"+data['schedule_arr'][i]['time-arr'][j].time[k]+"</span>";
+						}
+						html+= "</p>";
+					}
+					html += "</div>";
+					html += "</div><div class='small-info'>";
+					html += "<p><strong>Thể Loại: </strong>";
+					html += data['schedule_arr'][i].kind?data['schedule_arr'][i].kind:"Chưa Xác Định";
+					html += "</p><p><strong>";
+					html += "Diễn Viên: </strong>";
+					html += data['schedule_arr'][i].player?data['schedule_arr'][i].player:"Chưa Xác Định";
+					html += "</p><p><strong>";
+					html += "Đạo Diễn: </strong>";
+					html +=	data['schedule_arr'][i].director?data['schedule_arr'][i].director:"Chưa Xác Định";
+					html += "</p></div>";
+					html = "<li class='col-sm-4 col-md-4 col-lg-4'>" + html + "</li>";
+					if(count == 0){
+						html += "<div class='clearfix'></div>";
+						count = 3;
+					}
+					$("#items").append(html);
+				}
+				$(".movieTitle a").click(function(){
+					$("#popupSchedule .modal-header p.title").text($(this).text().substr(0,25)+"...");
+					$("#popupSchedule .modal-header p.cineplex").text($(this).parent().parent().parent().children('.thumbnail').children('span.cineplex_suggestion').text());
+					$("#popupSchedule .modal-body").html($(this).parent().parent().find(".schedule-time").eq(0).html());
+				});
+				$("#items_paginate").pajinate({
+					items_per_page: 8,
+					num_page_links_to_display: 10,
+					nav_label_first: "<<",
+					nav_label_prev: "<",
+					nav_label_next: ">",
+					nav_label_last: ">>"
+				});
+		}
+		$(".search_advance").on('click','p strong', function(){ //span.glyphicon-chevron-down
+			$(".content_search_advance").toggle("medium");
+			//- if($(this).children().attr('class') == 'glyphicon glyphicon-chevron-up'){
+			//- 	$(this).children().attr('class','glyphicon glyphicon-chevron-down');
+			//- }
+			if($(this).children().attr('class') == 'glyphicon glyphicon-chevron-down'){
+				$(this).children().attr('class','glyphicon glyphicon-chevron-up');
+			} else {
+				$(this).children().attr('class','glyphicon glyphicon-chevron-down');
+			}
+			//$(this).attr('class','glyphicon glyphicon-chevron-up');
+			//$(".find-query").toggle("medium");
+		});
+		//- $(".search_advance").on('click','', function(){ //span.glyphicon-chevron-up
+		//- 	$(".content_search_advance").toggle("medium");
+		//- 	$(this).attr('class','glyphicon glyphicon-chevron-down');
+		//- 	//$(".find-query").toggle("medium");
+		//- });
+		function coordFromAddress(address,callback){
+			var link = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address;
+			$.ajax({
+				url:link,
+				type:"GET",
+				dataType:"json",
+				data:{},
+			}).done(function(data){
+				var result = data;
+				if(result.status!="OK"){
+					callback(true);
+				}
+				else{
+					callback(null,{latitude:result.results[0].geometry.location.lat,longitude:result.results[0].geometry.location.lng});
+				}
+			});
+		}
+		function addressFromCoord(latitude,longitude,callback){
+			var link = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude +"," + longitude;
+			$.ajax({
+				url:link,
+				type:"GET",
+				dataType:"json",
+				data:{},
+			}).done(function(data){
+				var result = data;
+				if(result.status!="OK"){
+					callback(true);
+				}
+				else{
+					callback(null,result.results[0]['formatted_address']);
+				}
+			});
+		}

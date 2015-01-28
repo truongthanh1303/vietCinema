@@ -1,0 +1,65 @@
+extends headfilm
+block content
+	#cinemas-info.row
+		.title-info
+			h1 THÔNG TIN RẠP PHIM
+		.col-sm-4.col-md-4.col-lg-4.col-sm-offset-4.col-md-offset-4.col-lg-offset-4
+			select.form-control#cineplex
+				- if(typeof arr_company != 'undefined')
+					- for(var i in arr_company)
+						-if(arr_company[i]['name'] == cine_data[0].name)
+							option(value=arr_company[i]['_id'], selected='selected')= arr_company[i]['name']
+						-else
+							option(value=arr_company[i]['_id'])= arr_company[i]['name']
+				//- option Galaxy Kinh Dương Vương
+				//- option Galaxy Nguyễn Du
+				//- option Galaxy Nguyễn Trãi
+				//- option Galaxy Quang Trung
+				//- option Galaxy Tân Bình
+		.clearfix
+		hr/
+		.col-sm-12.col-md-12.col-lg-12
+			- if(typeof cine_data != 'undefined')
+				h3
+					span.glyphicon.glyphicon-map-marker
+					| &nbsp;
+					span#titleCineplex #{cine_data[0].name}
+					//a(href="#").see_schedule Xem lịch chiếu
+				.address-cinema
+					- for(var i in cine_data[0])
+						- if(i != 'name' && i != 'company' && i != 'image' && i != '_id')
+							span: strong= i +': '
+							span= cine_data[0][i]
+							br/
+		.clearfix
+		hr/
+		.col-sm-6.col-md-6.col-lg-6
+			iframe#iframe-map(frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/place?q='+map+'&key='+_key)
+		.col-sm-6.col-md-6.col-lg-6
+			.thumbnail
+				img(src= cine_data[0].image, alt="")
+		.clearfix
+		//- hr/
+		//- .col-sm-5.col-md-5.col-lg-5.title-prices
+		//- 	h4 BẢNG GIÁ VÉ <br/> 2D/DIGITAL
+		//- .col-sm-7.col-md-7.col-lg-7
+		//- 	.thumbnail
+		//- 		img(src="http://imagizer.imageshack.com/img674/6719/tpniyA.jpg", alt="")
+		//- .clearfix
+		//- hr/
+		//- .col-sm-5.col-md-5.col-lg-5.title-prices
+		//- 	h4 BẢNG GIÁ VÉ <br/> 3D
+		//- .col-sm-7.col-md-7.col-lg-7
+		//- 	.thumbnail
+		//- 		img(src="http://imagizer.imageshack.com/img537/2978/pw87za.jpg", alt="")
+		//- .clearfix
+		//- hr/
+		//- .col-sm-5.col-md-5.col-lg-5.title-prices
+		//- 	h4 BẢNG GIÁ VÉ <br/> 3D TEEN STAR
+		//- .col-sm-7.col-md-7.col-lg-7
+		//- 	.thumbnail
+		//- 		img(src="http://imagizer.imageshack.com/img674/7537/g7COJL.jpg", alt="")
+		//- .clearfix
+	hr/
+	.footer.row
+		include footer

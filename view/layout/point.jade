@@ -1,0 +1,94 @@
+extends admin
+block headHtml
+	link(rel='stylesheet',type='text/css',href='/css/point.css')
+
+block content
+	h1.text-center SỬA ĐIỂM THỂ LOẠI
+	button(type="button", data-toggle="collapse", data-target=".admin-panel").button-toggle
+		span.glyphicon.glyphicon-list-alt
+	.collapse.admin-panel
+		ul.nav.navbar-nav
+			li: a(href="/admin-registers") Tạo TK Quản Trị
+			li: a(href="/edit-data") Sửa Dữ Liệu Phim
+			li: a(href="/job_point") Sửa Điểm Theo Ng.Nghề
+			li: a(href="/rank_point") Sửa Điểm Ranking
+	hr/
+	div
+		div#point-edit
+			- if(kind_arr)
+				- var count = 0;
+				- for(var i in kind_arr)
+					- if(count % 2 == 0 && count > 0)
+						.clearfix
+						hr/
+						- count++
+					- else
+						- count++
+					div.main-kind.col-md-6.col-lg-6
+						input.list-group-item.list-group-item-info(type='text',placeholder='Nhập thể loại chính',value=i)
+						span.add-icon.glyphicon.glyphicon-plus
+						span.sub-icon.glyphicon.glyphicon-minus
+						- for(var j in kind_arr[i])
+							div.sub-kind
+								span.indent &nbsp
+								input(type='text',placeholder='Nhập thể loại liên quan',value=j)
+								input(type='text',placeholder='Nhập điểm thể loại liên quan',value=kind_arr[i][j])
+								span.del-icon.glyphicon.glyphicon-remove
+	.clearfix
+	br/
+	div.text-center#point-btn
+		button.btn.btn-default#add-kind= "Thêm Thể Loại"
+		button.btn.btn-info#submit= "Lưu"
+	.clearfix
+	hr/
+	.footer
+		include footer
+	script.
+		$(".sub-icon").click(subIconClick);
+		$(".add-icon").click(addIconClick);
+		$(".del-icon").click(delIconClick);
+		$("#add-kind").click(addMainKind);
+		function addMainKind(){
+			if($("div.main-kind").length % 2 == 0 && $("div.main-kind").length != 0){
+				var html = "<div class='clearfix'></div><hr/><div class='main-kind col-md-6 col-lg-6'> <input type='text' class='list-group-item list-group-item-info' placeholder='Nhập thể loại chính'/> <span class='add-icon glyphicon glyphicon-plus'></span><span class='sub-icon glyphicon glyphicon-minus'></span> <div>";
+			}else{
+				var html = "<div class='main-kind col-md-6 col-lg-6'> <input type='text' class='list-group-item list-group-item-info' placeholder='Nhập thể loại chính'/> <span class='add-icon glyphicon glyphicon-plus'></span><span class='sub-icon glyphicon glyphicon-minus'></span> <div>";
+			}
+			$("#point-edit").append(html);
+			$("#point-edit > div:last-child .add-icon").click(addIconClick);
+			$("#point-edit > div:last-child .sub-icon ").click(subIconClick);
+		}
+		function addIconClick(){
+			var html = "<div class='sub-kind'><span class='indent'>&nbsp</span> <input type='text' placeholder='Nhập thể loại liên quan'/><input type='text' placeholder='Nhập điểm liên quan'/><span class='del-icon glyphicon glyphicon-remove'></span><div>";
+			$(this).parent().append(html);
+			$(this).parent().find("div:last-child .del-icon").eq(0).click(delIconClick);
+		}
+		function subIconClick(){
+			$(this).parent().remove();
+		}
+		function delIconClick(){
+			$(this).parent().remove();
+		}
+
+		$("#submit").click(function(){
+			var data ={};
+			$(".main-kind > input").each(function(){
+				var main_kind = $(this).val();
+				if(main_kind && isNaN(main_kind)){
+					data[main_kind]={};
+					$(this).parent().find(".sub-kind > input:first-of-type").each(function(){
+						if($(this).val() && isNaN($(this).val()) && $(this).next("input").val() && !isNaN($(this).next("input").val())){
+							data[main_kind][$(this).val()] = $(this).next("input").val();
+						}
+					});
+				}
+			});
+			$.ajax("/ajax_kind_edit",{dataType:"json",type:"GET",data:{"kind_arr":data}}).done(function(data){
+				if(data.err){
+					alert(data.err);
+				}
+				else{
+					alert(data.success);
+				}
+			});
+		});

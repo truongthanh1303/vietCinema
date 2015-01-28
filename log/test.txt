@@ -1,0 +1,18 @@
+﻿var request = require("request"),
+	cheerio = require("cheerio");
+var config 	= require("./../config/config.js"),
+	//account   = require("./config/account.js").account,
+	db_config = require(config.CONFIG_PATH + "db.js");
+var fileLib  = require(config.LIB_PATH+ "file.js"),
+	textLib = require(config.LIB_PATH + "text.js"),
+	httpLib = require(config.LIB_PATH+"http.js"),
+	db_model = require(config.MODEL_PATH+"db.js");
+
+function getTumLum(){
+	request("http://google.com",function(err,res,body){
+		console.log("callback");
+		return 123;
+	});
+}
+var a = getTumLum();
+console.log("@@@@2");

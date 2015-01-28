@@ -1,0 +1,134 @@
+#column{
+	border-spacing: 0;
+	margin-top: 20px;
+}
+#column tr{
+	color: black;
+	margin-top: 20px;
+}
+#column1{
+	width: 250px;
+	text-align: center;
+	vertical-align: top;
+}
+#column2{
+	width: 650px;
+}
+#column1 p{
+	text-align: left;
+	/*font-family: 'title_font';*/
+	letter-spacing: -1px;
+}
+#column1 .btn{
+	border: 1px solid black;
+	border-radius: 5px;
+	background: none;
+	color: black;
+	height: auto;
+	width: 70px;
+	/*font-family: 'title_font';*/
+	font-size: 17px;
+	line-height: 20px;
+	display: block;
+	margin: auto;
+	margin-bottom: 20px;
+}
+#cinema{
+	background: white;
+	display: inline-block;
+	border:1px solid black;
+	border-radius: 5px;
+	margin: 10px auto 10px auto;
+	position: relative;
+	overflow: hidden;
+	height: 30px;
+	width: 170px;
+}
+#cinema select{
+	background: white;
+	/*font-family: "title_font";*/
+	border:none;
+	letter-spacing: -1px;
+	width: 172px;
+	height: 32px;
+	color:black;
+	font-size: 17px;
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	z-index: 0;
+}
+#cinema:before{
+	font-family:"icon_font";
+	pointer-events:none;
+	line-height: 28px;
+	content: "\e802";
+	color: black;
+	background: white;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	z-index: 1;
+	top: 0px;
+	right: 0px;
+	border-radius: 0 5px 5px 0;
+}
+
+#column2 h1{
+	text-align: center;
+	/*font-family: 'title_font';*/
+}
+#column2 ul{
+	list-style: none;
+	/*font-family: 'title_font';*/
+}
+#column2 ul p.title{
+	background: #0B1F2C;
+	font-weight: bold;
+	padding: 5px;
+	font-size: 18px;
+	letter-spacing: 1px;
+	color: white;
+	text-align: center;
+}
+#column2 ul p.date{
+	background: #CCC;
+	font-weight: bold;
+	padding: 5px;
+	font-size: 18px;
+	letter-spacing: 1px;
+	color: black;
+	text-align: center;
+}
+#column2 span{
+	background: #374551;
+	color: white;
+	text-align: center;
+	display: inline-block;
+	width: 80px;
+	height: 28px;
+	line-height: 25px;
+	border-radius: 0 7px 7px 0;
+	position: relative;
+	margin:20px 15px 20px 15px;
+}
+#column2 span:before{
+	background: #81F781;
+	content: "";
+	border-radius: 7px 0px 0px 7px;
+	width:12px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: -10px;
+}
+h1{
+	border-bottom: 2px solid #032E50;
+	margin-bottom: 20px;
+	text-shadow: 2px 2px #CCC;
+	padding-left: 20px;
+}
+.movies{
+	margin-left: 20px;
+	font-size: 18pt;
+}

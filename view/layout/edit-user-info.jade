@@ -1,0 +1,343 @@
+extends headfilm
+block headHtml
+	link(rel="stylesheet", type="text/css", href="/css/jquery-ui.min.css")
+	link(rel="stylesheet", type="text/css", href="/css/registers.css")
+	script(type="text/javascript", src="/library/jquery-ui.min.js")
+block content
+	#registers
+		br/
+		h1 SỬA THÔNG TIN ĐĂNG KÝ TÀI KHOẢN
+		br/
+		form.register-form#register-form(method="post",action="/edit-user-info")
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Username* :
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-user
+						input.form-control#username(type="text", placeholder="Tên đăng nhập",required,disabled,value=user.username)
+						input(type="hidden",name="username",value=user.username)
+				.col-md-3.col-lg-3
+					p.error#username-notify
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Password* :
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-lock
+						input.form-control#password(type="password", placeholder="Nhập mật khẩu",name="password")
+				.col-md-3.col-lg-3
+					p.error#password-notify
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Confirm Password* :
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-lock
+						input.form-control#confirm-password(type="password", placeholder="Nhập lại mật khẩu",name="confirm-password")
+				.col-md-3.col-lg-3
+					p.error#confirm-password-notify
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Email* :
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-envelope
+						input.form-control#email(type="text", placeholder="Email đăng ký tài khoản",name="email",required,value=user.email, disabled)
+				.col-md-3.col-lg-3
+					p.error#email-notify
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Giới tính* :
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-asterisk
+						.form-control
+							label
+								- if(user.gender.indexOf("male")!=-1)
+									input#gender_male(type="radio",name="gender",value="male",checked)
+								- else
+									input#gender_male(type="radio",name="gender",value="male")
+								="Nam"
+
+							label
+								- if(user.gender.indexOf("female")!=-1)
+									input#gender_male(type="radio",name="gender",value="female",checked)
+								- else
+									input#gender_male(type="radio",name="gender",value="female")
+								="Nữ"
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Năm sinh* :
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-asterisk
+						input.form-control#age(type="text", placeholder="Năm sinh",name="birthday-year",value= user["birthday-year"])
+						//.form-control#age
+				.col-md-3.col-lg-3
+					p.error#age-notify
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Cụm rạp yêu thích* :
+				.col-md-6.col-lg-6
+					- for(var i = 0 ; i < company_arr.length ; i++)
+						.input-group
+							span.input-group-addon
+								- if(user['favorite-company'].indexOf(company_arr[i])!=-1)
+									input(id='Id_'+company_arr[i] ,type="checkbox", value=company_arr[i], name='favorite-company',checked)
+								- else
+									input(id='Id_'+company_arr[i] ,type="checkbox", value=company_arr[i], name='favorite-company')
+							label.form-control= company_arr[i].toUpperCase()
+						br/
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Rạp phim yêu thích*:
+				.col-md-6.col-lg-6
+					- for(var i = 0 ; i < company_arr.length ; i++)
+						- if(user['favorite-company'].indexOf(company_arr[i])!=-1)
+							div(class="class_"+company_arr[i],style='display:block')
+								p.company= company_arr[i].toUpperCase()
+								- for(var j = 0 ; j < department_arr.length ; j++)
+									-if(department_arr[j].company == company_arr[i])
+										.input-group
+											span.input-group-addon
+												- if(user['favorite-cinema'].indexOf(department_arr[j].name)!=-1)
+													input(type="checkbox", value=department_arr[j].name,name='favorite-cinema',checked)
+												- else
+													input(type="checkbox", value=department_arr[j].name,name='favorite-cinema')
+											label.form-control= department_arr[j].name
+										br/
+						- else
+							div(class="class_"+company_arr[i])
+								p.company= company_arr[i].toUpperCase()
+								- for(var j = 0 ; j < department_arr.length ; j++)
+									-if(department_arr[j].company == company_arr[i])
+										.input-group
+											span.input-group-addon
+												- if(user['favorite-cinema'].indexOf(department_arr[j].name)!=-1)
+													input(type="checkbox", value=department_arr[j].name,name='favorite-cinema',checked)
+												- else
+													input(type="checkbox", value=department_arr[j].name,name='favorite-cinema')
+											label.form-control= department_arr[j].name
+										br/
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Diễn viên yêu thích*:
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-film
+						input.form-control#favorite-player(type="text",name="favorite-player",value=user["favorite-player"])
+				.col-md-3.col-lg-3
+					span Nhập diễn viên yêu thích, cách nhau bởi dấu ","
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Đạo diễn yêu thích*:
+				.col-md-6.col-lg-6
+					.input-group
+						span.input-group-addon.glyphicon.glyphicon-film
+						input.form-control#favorite-director(type="text",name="favorite-director",value=user["favorite-player"])
+				.col-md-3.col-lg-3
+					span Nhập đạo diễn yêu thích, cách nhau bởi dấu ","
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Thể loại yêu thích* :
+				.col-md-9.col-lg-9
+					- for(var i in point_arr)
+						-if(typeof(i)!='function')
+							- if(i % 2 == 0)
+								.list-group-item.col-md-4.col-lg-4
+									label
+										- if(user['favorite-kind'].indexOf(point_arr[i])!=-1)
+											input(type="checkbox", value=point_arr[i], name='favorite-kind',checked)
+										- else
+											input(type="checkbox", value=point_arr[i], name='favorite-kind')
+										= point_arr[i]
+							- else
+								.list-group-item.list-group-item-info.col-md-4.col-lg-4
+									label
+										- if(user['favorite-kind'].indexOf(point_arr[i])!=-1)
+											input(type="checkbox", value=point_arr[i], name='favorite-kind',checked)
+										- else
+											input(type="checkbox", value=point_arr[i], name='favorite-kind')
+										= point_arr[i]
+							//.input-group
+								span.input-group-addon
+									input(type="checkbox", value=point_arr[i], name='favorite-kind')
+								label.form-control= point_arr[i]
+							//br/
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-3.col-lg-3
+					label Công việc hiện tại* :
+				.col-md-6.col-lg-6
+					- for(var i in job_arr)
+						-if(typeof(i)!='function')
+							.input-group
+								span.input-group-addon
+									- if(user['job'].indexOf(job_arr[i])!=-1)
+										input(type="checkbox", value=job_arr[i], name='job',checked)
+									- else
+										input(type="checkbox", value=job_arr[i], name='job')
+								label.form-control= job_arr[i]
+							br/
+			.clearfix
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				hr/
+			.col-md-8.col-lg-8.col-md-offset-2.col-lg-offset-2
+				.col-md-6.col-lg-6
+					button.btn.btn-primary#submit(type="submit") Submit
+				.col-md-6.col-lg-6
+					button.btn.btn-warning#submit(type="reset") Reset
+	.clearfix
+	hr/
+	.footer.row
+		include footer
+	script.
+		var email_check = true;
+		$("#password").blur(function(){
+			if(!$("#password").val()){
+				$('#confirm-password-notify').empty();
+				return;
+			}
+			if($("#confirm-password").val()){
+				if($("#password").val() != $("#confirm-password").val()){
+					$("#confirm-password-notify").html("Password không giống nhau");
+					$('#confirm-password-notify').css("color","red");
+				}
+				else{
+					$("#confirm-password-notify").html("Password giống");
+					$('#confirm-password-notify').css("color","green");
+				}
+			}
+		});
+		$("#confirm-password").blur(function(){
+			if(!$("#confirm-password").val()){
+				$('#confirm-password-notify').empty();
+				return;
+			}
+			if($("#password").val()){
+				if($("#password").val() != $("#confirm-password").val()){
+					$("#confirm-password-notify").html("Password không giống nhau");
+					$('#confirm-password-notify').css("color","red");
+				}
+				else{
+					$("#confirm-password-notify").html("Password giống");
+					$('#confirm-password-notify').css("color","green");
+				}
+			}
+		});
+		$("#email").blur(function(){
+			if(!$("#email").val()){
+				$('#email-notify').empty();
+				email_check=false;
+				return;
+			}
+			$.ajax({
+				url		:'/ajax_check_email',
+				type	:'get',
+				dataType:'json',
+				data:{"email":$("#email").val()},
+			}).done(function(data){
+				if(data.error){
+					$('#email-notify').html(data.error);
+					$('#email-notify').css("color","red");
+					email_check=false;
+				}
+				else if(data.success){
+					$('#email-notify').html(data.success);
+					$('#email-notify').css("color","green");
+					email_check=true;
+				}
+			});
+		});
+		$("#submit").click(function(e){
+			if($('#password').val() != $('#confirm-password').val()){
+				alert("Password không giống nhau")
+				e.preventDefault();
+				return false;
+			}
+			if(!email_check){
+				alert("Không thể sử dụng email này")
+				e.preventDefault();
+				return false;
+			}
+			if($('#password').val().length < 6){
+				alert("Password tối thiểu 6 ký tự!");
+				return false;
+			}
+		});
+		$("#age").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			//showButtonPanel: true,
+			yearRange: "1930:"+ new Date().getFullYear().toString(),
+			dateFormat: 'dd-mm-yy',
+			onClose: function(dateText, inst) {
+				var date = $(this).datepicker('getDate').getDate();
+				var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+				var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+				$(this).datepicker('setDate', new Date(year, month, date));
+			}
+		});
+		$("#Id_bhd").change(function(){
+			if(!this.checked && $(".class_bhd").css('display')=="none"){
+				return;
+			}
+			$(".class_bhd").toggle("medium");
+		});
+		$("#Id_cgv").change(function(){
+			if(!this.checked && $(".class_cgv").css('display')=="none"){
+				return;
+			}
+			$(".class_cgv").toggle("medium");
+		});
+		$("#Id_galaxy").change(function(){
+			if(!this.checked && $(".class_galaxy").css('display')=="none"){
+				return;
+			}
+			$(".class_galaxy").toggle("medium");
+		});
+		$("#Id_lotte").change(function(){
+			if(!this.checked && $(".class_lotte").css('display')=="none"){
+				return;
+			}
+			$(".class_lotte").toggle("medium");
+		});
+		$("#Id_platinum").change(function(){
+			if(!this.checked && $(".class_platinum").css('display')=="none"){
+				return;
+			}
+			$(".class_platinum").toggle("medium");
+		});

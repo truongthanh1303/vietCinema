@@ -1,0 +1,6 @@
+div.option-panel{
+	color: white;
+}
+.option-location-content, .option-date-content, .option-name-content, .option-cinema-content, .option-kind-content, .option-player-content, .option-director-content{
+	display:none;
+}

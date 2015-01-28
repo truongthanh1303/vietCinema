@@ -1,0 +1,170 @@
+extends ./main_layout.jade
+
+block include
+	script(src='/js/jquery.slides.min.js')
+	link(rel="stylesheet", type="text/css", href="/css/index.css")
+
+block title
+	title= "++ Viet Cinema Home Page ++ Loose Your Self In Film ++"
+
+block slide1
+	div#slide1-title.container= "Ready To Show"
+	div#slide1.container
+		a.slidesjs-next.slidesjs-navigation(href="#")
+		a.slidesjs-previous.slidesjs-navigation(href="#")
+		- for ( var i = 0 ; i < schedule_arr.length; i++)
+			- for ( var j = 0 ; j < movie_arr.length; j++)
+				- if (movie_arr[j].name == schedule_arr[i].movie)
+					div.slide1
+						table.slide1-content.container
+							tr
+								td
+									
+									center: img(src = movie_arr[j].image)
+								td
+									h2= schedule_arr[i].movie
+									p.cinema=	schedule_arr[i].cinema
+									p.company=	schedule_arr[i].company.toUpperCase()
+									p.date= schedule_arr[i].date
+									- var now = new Date();
+									- var now_hour = now.getHours();
+									- var now_minute = now.getMinutes();
+									- for (var k = 0 ; k < schedule_arr[i].time.length ; k++)
+										- var times = schedule_arr[i].time[k].split(":");
+										- var hour = parseInt(times[0]);
+										- var minute = parseInt(times[1]);
+										- if (hour > now_hour || (now_hour == hour && minute > now_minute))
+											p.time= schedule_arr[i].time[k]
+											- break;
+									- if(movie_arr[j].intro)
+										- if(movie_arr[j].intro.length >= 200)
+											p.des= movie_arr[j].intro.substr(0,200) + "..."
+										- else	
+											p.des #{movie_arr[j].intro}
+						div.slide1-hiden.container
+							div.slide1-hiden-bg.container
+							div.slide1-hiden-content.container
+								- for(var j = 0 ; j < schedule_arr[i].time.length ; j++)
+									p.time= schedule_arr[i].time[j]
+					- break;
+block content
+	div#mycontent
+block column
+	table#column.container
+				tr.container
+					td#column1
+						div#schedule
+							div.schedule-title= "Showing Time"
+							div.schedule-content
+								div.fake-select
+									select
+										- for( var i = 0 ; i < company_arr.length; i++)
+											option= company_arr[i].toUpperCase()
+								br/
+								button#schedule-btn(type='button')="Select Cinema"
+						div#cinemas
+							div.cinemas-title= "Cinemas"
+							div.cinemas-content
+								div.fake-select
+									select
+										- for( var i = 0 ; i < company_arr.length; i++)
+											option= company_arr[i].toUpperCase()
+								br/
+								button#cinema-btn(type='button')="Select Cinema"
+					td#column2
+						div#nowshowing
+							div.nowshowing-title= "Now Showing"
+							div.nowshowing-content
+								div.fake-select
+									select
+										- for( var i = 0 ; i < company_arr.length; i++)
+											option= company_arr[i].toUpperCase()
+								br/
+								button#nowshowing-btn(type='button')="Select Cinema"
+						div#commingsoon
+							div.commingsoon-title= "Comming Soon"
+							div.commingsoon-content
+								div.fake-select
+									select
+										- for( var i = 0 ; i < company_arr.length; i++)
+											option= company_arr[i].toUpperCase()
+								br/
+								button#commingshoon-btn(type='button')="Select Cinema"
+
+block slide2
+	div#slide2-title.container= "Special & Offer"
+	div#slide2.container
+		a.slidesjs-next.slidesjs-navigation(href="#")
+		a.slidesjs-previous.slidesjs-navigation(href="#")
+		-for (var i = 0 ; i < promotion_arr.length ; i ++)
+			div.slide2
+				table.slide2-content.container
+					tr
+						td
+							center
+								img(src= promotion_arr[i].image)
+						td
+							h2= promotion_arr[i].title.replace(":","")
+							p.cinema= promotion_arr[i].company.toUpperCase()
+			
+block script
+	script.
+		$('#slide1').slidesjs({
+			height:'400',
+			navigation:{
+				active:false,
+				effect:'fade,slide',
+			},
+			pagination:{
+				active:true,
+			},
+			play:{
+				active:false,
+				interval:10000,
+				auto:true,
+				pauseOnHover:true,
+				restartDelay:5000,
+			}
+		});
+		$('#slide2').slidesjs({
+			height:'200',
+			navigation:{
+				active:false,
+				effect:'slide'
+			},
+			pagination:{
+				active:true,
+			},
+			play:{
+				active:false,
+				interval:10000,
+				auto:true,
+				pauseOnHover:true,
+				restartDelay:5000,
+			}
+		});
+		$.ajax({
+			url:"/ajax_get_login_form",
+			type:"get",
+			dataType:"html",
+		}).done(function(data){
+			$("#mycontent").append(data);
+		});
+		$(document).on('click','#login-btn',function(){
+			$.ajax({
+				url:"/check_login_info",
+				type:"post",
+				dataType:"json",
+				data:{username:$('#login-username').val(),password:$('#login-password').val()},
+			}).done(function(data){
+				if(data.success){
+					$('#mycontent').html(data.success);
+				}
+				else{
+					alert(data.error);
+				}
+			});
+		});
+
+
+

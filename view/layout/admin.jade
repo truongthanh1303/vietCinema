@@ -1,0 +1,123 @@
+extends headfilm
+block headHtml
+	link(rel="stylesheet", type="text/css", href="/css/admin.css")
+block content
+	.row#admin
+		h1.text-center QUẢN TRỊ NỘI DUNG
+		hr/
+		br/
+		.col-md-8.col-lg-8.col-lg-offset-2.col-md-offset-2
+			.col-md-6.col-lg-6
+				a(href='/admin-registers', style='display: block')
+					.blue-2-block
+						span.glyphicon.glyphicon.glyphicon-user
+						p TẠO TK QUẢN TRỊ
+			.col-md-6.col-lg-6
+				a(href='/edit-data', style='display: block')
+					.blue-2-block
+						span.glyphicon.glyphicon.glyphicon-edit
+						p SỬA DỮ LIỆU PHIM
+			.clearfix
+		.clearfix
+		br/
+		.col-md-8.col-lg-8.col-lg-offset-2.col-md-offset-2
+			.col-md-4.col-lg-4
+				a(href='/point', style='display: block')
+					.blue-block
+						span.glyphicon.glyphicon.glyphicon-edit
+						p SỬA ĐIỂM THEO THỂ LOẠI
+
+			.col-md-4.col-lg-4
+				a(href='/job_point', style='display: block')
+					.blue-block
+						span.glyphicon.glyphicon.glyphicon-edit
+						p SỬA ĐIỂM THEO NG.NGHỀ
+
+			.col-md-4.col-lg-4
+				a(href='/rank_point', style='display: block')
+					.blue-block
+						span.glyphicon.glyphicon.glyphicon-edit
+						p SỬA ĐIỂM RANKING
+
+			.clearfix
+		.clearfix
+		br/
+		hr/
+	.row.footer
+		include footer
+
+//doctype html
+//html
+	head(lang="en")
+		title #{title}
+		meta(http-equiv="content-type", content="text/html; charset=UTF-8")
+		meta(name="description", content="")
+		meta(name="keywords", content="")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;")
+		script(type="text/javascript", src="/library/jquery-2.1.1.min.js")
+		script(type="text/javascript", src="/bootstrap/js/bootstrap.min.js")
+		script(type="text/javascript", src="/library/myjs.js")
+		link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
+		link(rel="stylesheet", href="/bootstrap/css/bootstrap-theme.min.css")
+		link(rel="stylesheet", href="/css/style.css")
+		link(rel="stylesheet", href="/css/admin.css")
+		block headHtml
+	body
+		.container
+			.row#header
+				nav(role="navigation").navbar.navbar-default
+					.container-fluid
+						.navbar-header
+							button(type="button", data-toggle="collapse", data-target=".navbar-ex1-collapse").navbar-toggle
+								span.sr-only Toggle navigation
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+							button(type="button", data-toggle="collapse", data-target="#mycontent").navbar-toggle
+								span.sr-only Toggle navigation
+								span.glyphicon.glyphicon-log-in
+						.collapse.navbar-collapse.navbar-ex1-collapse.nav-justified
+							ul.nav.navbar-nav
+								li: a(href="/" ).navbar-brand <span class='glyphicon glyphicon-home'></span>
+								li: a(href='/admin-registers')= "TẠO TÀI KHOẢN ADMIN"
+								li: a(href='/point')= "SỬA ĐIỂM THỂ LOẠI"
+								li: a(href='/job_point')= "SỬA ĐIỂM THEO NGÀNH NGHỀ"
+								li: a(href='/rank_point')= "SỬA ĐIỂM RANKING"
+								li: a(href='/edit-data')= "SỬA DỮ LIỆU PHIM"
+				#mycontent.col-md-4.col-lg-4.collapse.navbar-collapse
+			block content
+		script.
+			$.ajax({
+				url:"/ajax_get_login_form",
+				type:"get",
+				dataType:"html",
+			}).done(function(data){
+				$("#mycontent").append(data);
+			});
+			$(document).on('click','#login-btn',function(){
+				$.ajax({
+					url:"/check_login_info",
+					type:"post",
+					dataType:"json",
+					data:{username:$('#login-username').val(),password:$('#login-password').val()},
+				}).done(function(data){
+					if(data.success){
+						$('#mycontent').html(data.success);
+					}
+					else{
+						alert(data.error);
+					}
+				});
+			});
+			$(document).on('click','#login-logout',function(){
+				$.ajax({
+					url:"/logout",
+					type:"GET",
+					dataType:"json",
+					data:{},
+				}).done(function(data){
+					if(data.success){
+						$('#mycontent').html(data.success);
+					}
+				});
+			});

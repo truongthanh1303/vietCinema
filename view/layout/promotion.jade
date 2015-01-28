@@ -1,0 +1,97 @@
+extends ./headfilm.jade
+block content
+	#promotions-info.row
+		hr/
+		.col-sm-8.col-md-8.col-lg-8.col-sm-offset-2.col-md-offset-2.col-lg-offset-2
+			.col-sm-4.col-md-4.col-lg-4
+				div.btn-group(role="group")#company_select
+					button.btn.btn-default.content-dropdown-button.head-select-title(type="button", data-toggle="dropdown", aria-expanded="false")= promotions[0].company.toUpperCase()+" cinema"
+					button.btn.btn-info.dropdown-toggle.caret-dropdown-button(type="button", data-toggle="dropdown", aria-expanded="false")
+						span.caret
+						span.sr-only Dropdown Toggle
+					ul.dropdown-menu(role="menu")
+						- for(var i in _company)
+							li: a(href="javascript:void(0)", data-url=_company[i])= _company[i].toUpperCase()+" cinema"
+						//- li: a(href="javascript:void(0)", data-url="GL") Galaxy
+						//- li: a(href="") Platinum
+			//.col-sm-6.col-md-6.col-lg-6
+				div.btn-group(role="group")#cineplex_select
+					button.btn.btn-default.content-dropdown-button.head-select-title(type="button", data-toggle="dropdown", aria-expanded="false") Rap
+					button.btn.btn-info.dropdown-toggle.caret-dropdown-button(type="button", data-toggle="dropdown", aria-expanded="false")
+						span.caret
+						span.sr-only Dropdown Toggle
+					ul.dropdown-menu#cineplexs_item(role="menu")
+						//- li: a(href="") Galaxy
+						//- li: a(href="") Platinum
+			.col-sm-2.col-md-2.col-lg-2
+				button.btn.btn-default.btn-change#get_list_promotion(type="button") Go
+			.col-sm-6.col-md-6.col-lg-6
+				input#company(type="hidden")
+		.clearfix
+		hr/
+		.title-info
+			h1 TIN TỨC - KHUYẾN MÃI
+		.content_promotion
+			- if(typeof promotions != 'undefined')
+				- for(var i in promotions)
+					.col-sm-4.col-md-4.col-lg-4
+						.promotion-title
+							h3: a(href="/detail-promotion/"+promotions[i].company+"/"+promotions[i]._id, target="_blank")= promotions[i].title.substr(0,40).toUpperCase()
+						.thumbnail
+							img(src= promotions[i].image, alt="ưu đãi siêu khủng từ thẻ")
+						.small-info
+							span= promotions[i].content.substr(0,200)+"..."
+						//.detail-button
+							a(type="button", href= "/detail-promotion/"+promotions[i].company+"/"+promotions[i]._id).btn.btn-success Chi tiết
+						.visible-xs-block
+							hr/
+					- if(parseInt(i+1) % 3 == 0 && i != 0)
+						.clearfix
+						hr/
+	hr/
+	.footer.row
+		include footer
+	script.
+		$(document).ready(function(){
+			$("#get_list_promotion").click(function(e){
+				if($("#company").val() != ""){
+					$.ajax({
+						url: '/get_list_promotion',
+						type: 'POST',
+						dataType: 'json',//default: Intelligent Guess (Other values: xml, json, script, or html)
+						data: {company: $("#company").val(), action: 'loaddata'},
+					})
+					.done(function(promotion_data_arr) {
+						console.log("success: ",promotion_data_arr);
+						var _html = "";
+						var _content = "";
+						for(var i in promotion_data_arr){
+							_content = promotion_data_arr[i].content;
+							_html += "<div class='col-sm-4 col-md-4 col-lg-4'>"+
+									 "<div class='promotion-title'><h3><a href='/detail-promotion/"+promotion_data_arr[i].company+"/"+promotion_data_arr[i]._id+"'>"+promotion_data_arr[i].title+"</a></h3></div>"+
+									 "<div class='thumbnail'><img src='"+promotion_data_arr[i].image+"', alt='"+promotion_data_arr[i].title+"'></div>"+
+									 "<div class='small-info'><span>"+_content+"...</span></div>"+
+									// "<div class='detail-button'><a class='btn btn-success' type='button' href='/detail-promotion/"+promotion_data_arr[i].company+"/"+promotion_data_arr[i]._id+"'>Chi tiết</a></div>"+
+									 "<div class='visible-xs-block'><hr></div>"
+									 +"</div>";
+							if(parseInt(i+1) % 3 == 0 && i != 0){
+								_html += "<div class='clearfix'></div><hr>";
+							}
+						}
+						$("#promotions-info > .content_promotion").html(_html);
+						$("#promotions-info > .content_promotion .small-info").each(function(){
+							$(this).text($(this).text().replace(/<(?:.|\n)*?>/gm, '').substr(0, 200)+'...');
+						});
+					})
+					.fail(function(e) {
+						console.log("error: ",e);
+					})
+					.always(function(cpl) {
+						console.log("complete: ",cpl);
+					});
+				}else{
+					alert("OOP!");
+				}
+				e.preventDefault();
+			});
+		});

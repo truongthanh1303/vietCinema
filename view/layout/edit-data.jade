@@ -1,0 +1,1516 @@
+extends admin
+block headHtml
+	link(rel="stylesheet", type="text/css", href="/css/edit_data.css")
+block content
+	#edit_data
+		h1.text-center SỬA DỮ LIỆU
+		button(type="button", data-toggle="collapse", data-target=".admin-panel").button-toggle
+			span.glyphicon.glyphicon-list-alt
+		.collapse.admin-panel
+			ul.nav.navbar-nav
+				li: a(href="/admin-registers") Tạo TK Quản Trị
+				li: a(href="/point") Sửa Điểm Theo Thể Loại
+				li: a(href="/job_point") Sửa Theo Ng.Nghề
+				li: a(href="/rank_point") Sửa Điểm Ranking
+		hr/
+		div(role='tabpanel')
+			ul.nav.nav-tabs.nav-justified(role='tab-list')
+				li.active(role='presentation')
+					a(href='#promotion', aria-controls='promotion', role='tab', data-toggle='tab') Khuyến Mãi - Tin Tức
+				li(role='presentation')
+					a(href='#onscreenmovie', aria-controls='onscreenmovie', role='tab', data-toggle='tab') Phim Đang Chiếu
+				li(role='presentation')
+					a(href='#commingsoonmovie', aria-controls='commingsoonmovie', role='tab', data-toggle='tab') Phim Sắp Chiếu
+			.tab-content
+				div.tab-pane.active#promotion(role='tabpanel')
+					.clearfix
+					br/
+					.col-md-4.col-lg-4.col-md-offset-3.col-lg-offset-3
+						.input-group
+							.input-group-addon
+								label Cụm rạp
+							select#edit_data_promotion.form-control
+								option(value='all') Tất Cả
+								//- for(var i in company_arr)
+									option(value= company_arr[i].company)= company_arr[i].company.toUpperCase()+ " Cinema"
+								option(value='bhd') BHD Cinema
+								option(value='cgv') CGV Cinema
+								option(value='galaxy') GALAXY Cinema
+								option(value='lotte') LOTTE Cinema
+								option(value='platinum') PLATINUM Cinema
+					.col-md-2.col-lg-2
+						button.btn.btn-info#add_promotion(type="button")= "Thêm Promotion"
+					.clearfix
+					br/
+					table.table
+						tr.text-center
+							th #
+							th Tiêu Đề
+							th Nội Dung
+							th Cụm Rạp
+							th: button(type="button", style='background: #05ceff; border: none;').glyphicon.glyphicon-trash
+						- for(var i in promotion_arr)
+							- if(i >= 9)
+								tr(style='display: none;')
+									td.index-promotion= parseInt(i)+1
+										span.id-promotion= promotion_arr[i]._id
+										span.image-promotion= promotion_arr[i].image
+									- if(typeof promotion_arr[i].title != 'undefined')
+										td.title= promotion_arr[i].title
+									- else
+										td.title= ""
+									td.content
+										span.visible-content= promotion_arr[i].content
+										span.content= promotion_arr[i].content
+									td.company= promotion_arr[i].company
+									td.del-action
+										input(type="checkbox", name='del_promotion[]', value=promotion_arr[i]._id)
+							- else
+								tr
+									td.index-promotion= parseInt(i)+1
+										span.id-promotion= promotion_arr[i]._id
+										span.image-promotion= promotion_arr[i].image
+									- if(typeof promotion_arr[i].title != 'undefined')
+										td.title= promotion_arr[i].title
+									- else
+										td.title= ""
+									td.content
+										span.visible-content= promotion_arr[i].content
+										span.content= promotion_arr[i].content
+									td.company= promotion_arr[i].company
+									td.del-action
+										input(type="checkbox", name='del_promotion[]', value=promotion_arr[i]._id)
+					.clearfix
+					.col-md-6.col-lg-6.col-md-offset-3.col-lg-offset-3.text-center
+						ul.pagination#promotion_pagination
+							- var promotion_pagination = promotion_arr.length/10;
+							- for(var i = 0; i < promotion_pagination; i++)
+								- if(i > 0)
+									li: a(href='javascript:void(0)', data-paginate= i+1)= i+1
+								- else
+									li.active: a(href='javascript:void(0)', data-paginate= i+1)= i+1
+					#edit_data_promotion_popup.modal.fade
+						.modal-dialog.modal-lg
+							.modal-content
+								.modal-header
+									button.close(type="button", data-dismiss='modal') <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									h4 Sửa dữ liệu Khuyến mãi - Tin tức
+								.modal-body
+									label Cụm rạp:
+									select#company_promotion.form-control
+										option(value='galaxy') GALAXY Cinema
+										option(value='bhd') BHD Cinema
+										option(value='lotte') Lotte Cinema
+										option(value='cgv') CGV Cinema
+										option(value='platinum') PLATINUM Cinema
+									br/
+									label Tiêu đề:
+									input#title_promotion.form-control(type="text", value='', placeholder="Tiêu đề")
+									br/
+									label Nội dung:
+									textarea#content_promotion(row="6").form-control
+									br/
+									label Link ảnh:
+									input#image_promotion.form-control(type="text", value='', placeholder="Link ảnh")
+									input#id_promotion(type="hidden")
+								.modal-footer
+									button#submit_promotion.btn.btn-primary(type="button")= "Submit"
+
+				div.tab-pane#onscreenmovie(role='tabpanel')
+					.clearfix
+					br/
+					.col-md-4.col-lg-4.col-md-offset-3.col-lg-offset-3
+						.input-group
+							.input-group-addon
+								label Cụm rạp
+							select#edit_data_onscreenmovie.form-control
+								option(value='all') Tất Cả
+								option(value='bhd') BHD Cinema
+								option(value='cgv') CGV Cinema
+								option(value='galaxy') GALAXY Cinema
+								option(value='lotte') LOTTE Cinema
+								option(value='platinum') PLATINUM Cinema
+					.col-md-2.col-lg-2
+						button.btn.btn-info#add_onscreenmovie(type="button")= "Thêm Phim Đang Chiếu"
+					.clearfix
+					br/
+					table.table
+						tr.text-center
+							th #
+							th Tên Phim
+							th Intro
+							th Cụm Rạp
+							th: button(type="button", style='background: #05ceff; border: none;').glyphicon.glyphicon-trash
+						- for(var i in onscreenmovie_arr)
+							- if(i >= 9)
+								tr(style='display: none;')
+									td.index-onscreenmovie= parseInt(i)+1
+										span.id-onscreenmovie= onscreenmovie_arr[i]._id
+										span.image-onscreenmovie= onscreenmovie_arr[i].image
+										span.trailer= onscreenmovie_arr[i].trailer
+										span.start-time= onscreenmovie_arr[i].start_time
+										span.end-time= onscreenmovie_arr[i].end_time
+										span.kind= onscreenmovie_arr[i].kind.join(',')
+										span.player= onscreenmovie_arr[i].player.join(',')
+										- if(onscreenmovie_arr[i].director.length > 1)
+											span.director= onscreenmovie_arr[i].director.join(',')
+										- else
+											span.director= onscreenmovie_arr[i].director
+										span.length= onscreenmovie_arr[i].length
+										span.version= onscreenmovie_arr[i].version
+										span.note= onscreenmovie_arr[i].note
+									- if(typeof onscreenmovie_arr[i].name != 'undefined')
+										td.title= onscreenmovie_arr[i].name
+									- else
+										td.title= ""
+									td.content
+										span.visible-content= onscreenmovie_arr[i].intro
+										span.content= onscreenmovie_arr[i].intro
+									td.company= onscreenmovie_arr[i].company
+									td.del-action
+										input(type="checkbox", name='del_onscreenmovie[]', value=onscreenmovie_arr[i]._id)
+							- else
+								tr
+									td.index-onscreenmovie= parseInt(i)+1
+										span.id-onscreenmovie= onscreenmovie_arr[i]._id
+										span.image-onscreenmovie= onscreenmovie_arr[i].image
+										span.trailer= onscreenmovie_arr[i].trailer
+										span.start-time= onscreenmovie_arr[i].start_time
+										span.end-time= onscreenmovie_arr[i].end_time
+										span.kind= onscreenmovie_arr[i].kind.join(',')
+										span.player= onscreenmovie_arr[i].player.join(',')
+										- if(onscreenmovie_arr[i].director.length > 1)
+											span.director= onscreenmovie_arr[i].director.join(',')
+										- else
+											span.director= onscreenmovie_arr[i].director
+										span.length= onscreenmovie_arr[i].length
+										span.version= onscreenmovie_arr[i].version
+										span.note= onscreenmovie_arr[i].note
+									- if(typeof onscreenmovie_arr[i].name != 'undefined')
+										td.title= onscreenmovie_arr[i].name
+									- else
+										td.title= ""
+									td.content
+										span.visible-content= onscreenmovie_arr[i].intro
+										span.content= onscreenmovie_arr[i].intro
+									td.company= onscreenmovie_arr[i].company
+									td.del-action
+										input(type="checkbox", name='del_onscreenmovie[]', value=onscreenmovie_arr[i]._id)
+						//tr
+							td.index-onscreenmovie 1
+								span.id-onscreenmovie= "548e40879f817fe61bd17327"
+								span.trailer= "https://www.youtube.com/embed/gMNCMABLIgs"
+								span.start-time= "05/12/2014"
+								span.end-time= "..."
+								span.kind= "Kinh dị,Kịch tính"
+								span.player= "Denis O'Hare,Ashley Hinshaw,James Buckley"
+								span.director= "Grégory Levasseur"
+								span.length= "89 phút"
+								span.version= "Tiếng Anh phụ đề Tiếng Việt"
+								span.note= "Vote : 7.0"
+								span.image= "http://bhdstar.vn/upload/timthumb.php?w=120&h=160&src=items_file_bhd_cinema_the_pyramid_movie_poster_1.jpg"
+							td.name Bí Ẩn Kim Tự Tháp
+							td.intro Bộ phim kể về một nhóm nhà khảo cổ người Mỹ tìm thấy Kim Tự Tháp cổ xưa bị chon vùi giữa ...
+								span.intro Bộ phim kể về một nhóm nhà khảo cổ người Mỹ tìm thấy Kim Tự Tháp cổ xưa bị chon vùi giữa sa mạc Ai Cập, họ tìm mọi cách để khám phá và tìm hiểu bí mật bên trong nó, tuy nhiên họ không ngờ rằng mình đã phạm vào lời nguyền ngay khi họ bước vào bên trong, và mọi người bắt đầu nhận ra rằng mình đang bị săn đuổi
+							td.company bhd
+					.clearfix
+					.col-md-6.col-lg-6.col-md-offset-3.col-lg-offset-3.text-center
+						ul.pagination#onscreenmovie_pagination
+							- var onscreenmovie_pagination = onscreenmovie_arr.length/10;
+							- for(var i = 0; i < onscreenmovie_pagination; i++)
+								- if(i > 0)
+									li: a(href='javascript:void(0)', data-paginate= i+1)= i+1
+								- else
+									li.active: a(href='javascript:void(0)', data-paginate= i+1)= i+1
+					#edit_data_onscreenmovie_popup.modal.fade
+						.modal-dialog.modal-lg
+							.modal-content
+								.modal-header
+									button.close(type="button", data-dismiss='modal') <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									h4 Sửa dữ liệu Phim Đang Chiếu
+								.modal-body
+									label Cụm rạp:
+									select#company_onscreenmovie.form-control
+										option(value='galaxy') GALAXY Cinema
+										option(value='bhd') BHD Cinema
+										option(value='lotte') Lotte Cinema
+										option(value='cgv') CGV Cinema
+										option(value='platinum') PLATINUM Cinema
+									br/
+									label Tên phim:
+									input#name_onscreenmovie.form-control(type="text", value='', placeholder="Tiêu đề")
+									br/
+									label Nội dung:
+									textarea#intro_onscreenmovie.form-control
+									br/
+									label Link ảnh:
+									input#image_onscreenmovie.form-control(type="text", value='', placeholder="Link ảnh")
+									br/
+									label Link trailer:
+									input#trailer_onscreenmovie.form-control(type="text", value='', placeholder="Link trailer")
+									p
+										.col-md-4.col-lg-4
+											label Ngày bắt đầu:
+											input#start_time_onscreenmovie.form-control(type="text", placeholder="Ngày bắt đầu")
+										.col-md-4.col-lg-4
+											label Ngày kết thúc:
+											input#end_time_onscreenmovie.form-control(type="text", placeholder="Ngày kết thúc")
+										.col-md-4.col-lg-4
+											label Độ dài:
+											input#length_onscreenmovie.form-control(type="text", placeholder="Ngày kết thúc")
+										.clearfix
+									p
+										.col-md-7.col-lg-7
+											label Thể loại
+											input#kind_onscreenmovie.form-control(type="text", placeholder="Thể loại")
+										.col-md-5.col-lg-5
+											label Đạo diễn:
+											input#director_onscreenmovie.form-control(type="text", placeholder="Đạo diễn")
+									p
+										.col-md-7.col-lg-7
+											label Version:
+											input#version_onscreenmovie.form-control(type="text", placeholder="version")
+										.col-md-5.col-lg-5
+											label Ghi chú:
+											input#note_onscreenmovie.form-control(type="text", placeholder="Ghi chú")
+									label Diễn viên:
+									input#player_onscreenmovie.form-control(type="text", value='', placeholder="Diễn viên")
+									input#id_onscreenmovie(type="hidden")
+								.modal-footer
+									button.btn.btn-primary#submit_onscreenmovie(type="button")= "Submit"
+				div.tab-pane#commingsoonmovie(role='tabpanel')
+					.clearfix
+					br/
+					.col-md-4.col-lg-4.col-md-offset-3.col-lg-offset-3
+						.input-group
+							.input-group-addon
+								label Cụm rạp
+							select#edit_data_commingsoonmovie.form-control
+								option(value='all') Tất Cả
+								option(value='bhd') BHD Cinema
+								option(value='cgv') CGV Cinema
+								option(value='galaxy') GALAXY Cinema
+								option(value='lotte') LOTTE Cinema
+								option(value='platinum') PLATINUM Cinema
+					.col-md-2.col-lg-2
+						button.btn.btn-info#add_commingsoonmovie(type="button")= "Thêm Phim Sắp Chiếu"
+					.clearfix
+					br/
+					table.table
+						tr.text-center
+							th #
+							th Tên Phim
+							th Intro
+							th Cụm Rạp
+							th: button(type="button", style='background: #05ceff; border: none;').glyphicon.glyphicon-trash
+						- for(var i in commingsoonmovie_arr)
+							- if(i >= 9)
+								tr(style='display: none;')
+									td.index-commingsoonmovie= parseInt(i)+1
+										span.id-commingsoonmovie= commingsoonmovie_arr[i]._id
+										span.image-commingsoonmovie= commingsoonmovie_arr[i].image
+										span.trailer= commingsoonmovie_arr[i].trailer
+										span.start-time= commingsoonmovie_arr[i].start_time
+										span.end-time= commingsoonmovie_arr[i].end_time
+										span.kind= commingsoonmovie_arr[i].kind.join(',')
+										span.player= commingsoonmovie_arr[i].player.join(',')
+										- if(commingsoonmovie_arr[i].director.length > 1)
+											span.director= commingsoonmovie_arr[i].director.join(',')
+										- else
+											span.director= commingsoonmovie_arr[i].director
+										span.length= commingsoonmovie_arr[i].length
+										span.version= commingsoonmovie_arr[i].version
+										span.note= commingsoonmovie_arr[i].note
+									- if(typeof commingsoonmovie_arr[i].name != 'undefined')
+										td.title= commingsoonmovie_arr[i].name
+									- else
+										td.title= ""
+									td.content
+										span.visible-content= commingsoonmovie_arr[i].intro
+										span.content= commingsoonmovie_arr[i].intro
+									td.company= commingsoonmovie_arr[i].company
+									td.del-action
+										input(type="checkbox", name='del_commingsoonmovie[]', value=commingsoonmovie_arr[i]._id)
+							- else
+								tr
+									td.index-commingsoonmovie= parseInt(i)+1
+										span.id-commingsoonmovie= commingsoonmovie_arr[i]._id
+										span.image-commingsoonmovie= commingsoonmovie_arr[i].image
+										span.trailer= commingsoonmovie_arr[i].trailer
+										span.start-time= commingsoonmovie_arr[i].start_time
+										span.end-time= commingsoonmovie_arr[i].end_time
+										span.kind= commingsoonmovie_arr[i].kind.join(',')
+										span.player= commingsoonmovie_arr[i].player.join(',')
+										- if(commingsoonmovie_arr[i].director.length > 1)
+											span.director= commingsoonmovie_arr[i].director.join(',')
+										- else
+											span.director= commingsoonmovie_arr[i].director
+										span.length= commingsoonmovie_arr[i].length
+										span.version= commingsoonmovie_arr[i].version
+										span.note= commingsoonmovie_arr[i].note
+									- if(typeof commingsoonmovie_arr[i].name != 'undefined')
+										td.title= commingsoonmovie_arr[i].name
+									- else
+										td.title= ""
+									td.content
+										span.visible-content= commingsoonmovie_arr[i].intro
+										span.content= commingsoonmovie_arr[i].intro
+									td.company= commingsoonmovie_arr[i].company
+									td.del-action
+										input(type="checkbox", name='del_commingsoonmovie[]', value=commingsoonmovie_arr[i]._id)
+					.clearfix
+					.col-md-6.col-lg-6.col-md-offset-3.col-lg-offset-3.text-center
+						ul.pagination#commingsoonmovie_pagination
+							- var commingsoonmovie_pagination = commingsoonmovie_arr.length/10;
+							- for(var i = 0; i < commingsoonmovie_pagination; i++)
+								- if(i > 0)
+									li: a(href='javascript:void(0)', data-paginate= i+1)= i+1
+								- else
+									li.active: a(href='javascript:void(0)', data-paginate= i+1)= i+1
+					#edit_data_commingsoonmovie_popup.modal.fade
+						.modal-dialog.modal-lg
+							.modal-content
+								.modal-header
+									button.close(type="button", data-dismiss='modal') <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									h4 Sửa dữ liệu Phim Sắp Chiếu
+								.modal-body
+									label Cụm rạp:
+									select#company_commingsoonmovie.form-control
+										option(value='galaxy') GALAXY Cinema
+										option(value='bhd') BHD Cinema
+										option(value='lotte') Lotte Cinema
+										option(value='cgv') CGV Cinema
+										option(value='platinum') PLATINUM Cinema
+									br/
+									label Tên phim:
+									input#name_commingsoonmovie.form-control(type="text", value='', placeholder="Tiêu đề")
+									br/
+									label Nội dung:
+									textarea#intro_commingsoonmovie.form-control
+									br/
+									label Link ảnh:
+									input#image_commingsoonmovie.form-control(type="text", value='', placeholder="Link ảnh")
+									br/
+									label Link trailer:
+									input#trailer_commingsoonmovie.form-control(type="text", value='', placeholder="Link trailer")
+									p
+										.col-md-6.col-lg-6
+											label Ngày bắt đầu:
+											input#start_time_commingsoonmovie.form-control(type="text", placeholder="Ngày bắt đầu")
+										.col-md-6.col-lg-6
+											label Độ dài:
+											input#length_commingsoonmovie.form-control(type="text", placeholder="Length")
+										.clearfix
+									p
+										.col-md-7.col-lg-7
+											label Thể loại
+											input#kind_commingsoonmovie.form-control(type="text", placeholder="Thể loại")
+										.col-md-5.col-lg-5
+											label Đạo diễn:
+											input#director_commingsoonmovie.form-control(type="text", placeholder="Đạo diễn")
+									label Diễn viên:
+									input#player_commingsoonmovie.form-control(type="text", value='', placeholder="Diễn viên")
+									input#id_commingsoonmovie(type="hidden")
+								.modal-footer
+									button.btn.btn-primary#submit_commingsoonmovie(type="button")= "Submit"
+	.clearfix
+	hr/
+	.footer
+		include footer
+	script.
+		$(document).ready(function(){
+			$("tr td.content span.visible-content").each(function(){
+				var table_html = $(this).html($(this).text());
+				$(this).text(table_html.text().replace(/\n/g,'').replace(/<(?:.|\n)*?>/gm, '').substr(0,50)+'...');
+			});
+			$("tr td.content span.content").each(function(){
+				//var table_html = $(this).html($(this).text());
+				$(this).text(encodeHtmlTag(convertText($(this).text())));
+			});
+			$("#promotion").on('click',"td:not('.del-action')",function(){
+				$("#company_promotion").val($(this).parent().children('td.company').text());
+				$("#title_promotion").val($(this).parent().children('td.title').text());
+				$("#content_promotion").val($(this).parent().children('td.content').children('span.content').text());
+				$("#image_promotion").val($(this).parent().children('td.index-promotion ').children('span.image-promotion').text());
+				$("#id_promotion").val($(this).parent().children('td.index-promotion').children('span.id-promotion').text());
+				$(this).parent().parent().children('tr').each(function(index){
+					if($(this).attr('id') == 'row_select_update'){
+						$(this).removeAttr('id');
+					}
+				});
+				$(this).parent().attr('id','row_select_update');
+				$("#edit_data_promotion_popup").modal('show');
+			});
+			$("#promotion_pagination").on('click', 'li a', function(event){
+				$("#promotion_pagination li").each(function(){
+					$(this).removeClass('active');
+				});
+				$(this).parent().addClass('active');
+				var page = $(this).data('paginate') - 1;
+				$("#promotion table tr").each(function(index){ console.log("page: "+page+"; index: "+index)
+					if(index == 0) return;
+					if(index == (page*10+index%10)){
+						$(this).css('display','');
+					}else{
+						$(this).css('display','none');	///$(this) is trigger current element in lop
+					}
+				});
+			});
+			function encodeHtmlTag(string){
+				return string.replace(/</g,'@lt%').replace(/>/g,'@gt%');
+			}
+			function decodeHtmlTag(string){
+				return string.replace(/@lt%/g,'<').replace(/@gt%/g,'>');
+			}
+			function convertText(text){
+				return text.replace(/&#(\d+);/g,function(match, num){
+					return String.fromCharCode(num);
+				}).replace(/&#x([A-Za-z0-9]+);/g, function(match, num){
+					return String.fromCharCode(parseInt(num, 16));
+				});
+			}
+			$("#promotion table.table").on('click','tr button',function(){
+				var arr_item_del = [];
+				$("#promotion td.del-action input[type='checkbox']:checked").each(function(index){
+					arr_item_del.push($(this).val());
+				});
+				var data = {collection: 'promotion', arrId: arr_item_del.join(",")};
+				$.ajax({
+					url: '/del_data_items',
+					type:'POST',
+					dataType:'json',
+					data: data,
+				}).done(function(data){
+					console.log("success: ",data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					for(var i in data){
+						temp_content = convertText(encodeHtmlTag(data[i].content));console.log(data[i].content);
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-promotion'>"+(parseInt(i)+1)+"<span class='id-promotion'>"+
+									data[i]._id+"</span><span class='image-promotion'>"+data[i].image+"</span></td>";
+							if(typeof data[i].title != 'undefined'){
+								table_html += "<td class='title'>"+data[i].title+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(data[i].content).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_promotion[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-promotion'>"+(parseInt(i)+1)+"<span class='id-promotion'>"+
+									data[i]._id+"</span><span class='image-promotion'>"+data[i].image+"</span></td>";
+							if(typeof data[i].title != 'undefined'){
+								table_html += "<td class='title'>"+data[i].title+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(data[i].content).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_promotion[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$('#promotion_pagination').html(pagination_html);
+					$("#promotion table.table").html(table_html);
+					$('#promotion_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+					$("select#edit_data_promotion").val('all');
+				}).fail(function(err){
+					console.log(err);
+				});
+			});
+			$(".modal-footer").on('click','#submit_promotion',function(){
+				var _id 		= $("#edit_data_promotion_popup #id_promotion").val();
+				var _content 	= decodeHtmlTag($("#edit_data_promotion_popup #content_promotion").val());
+				var _title 		= $("#edit_data_promotion_popup #title_promotion").val();
+				var _image 		= $("#edit_data_promotion_popup #image_promotion").val();
+				var _company 	= $("#edit_data_promotion_popup #company_promotion").val();
+				var collection = 'promotion';console.log(_content);
+				$.ajax({
+					url:'/update_data_item',
+					type: 'POST',
+					data: {id: _id, content: _content, title: _title, image: _image, company: _company, collection: collection},
+				}).done(function(data){
+					console.log("success:",data);
+					$("#row_select_update").children('td.title').text(_title);
+					$("#row_select_update").children('td.company').text(_company);
+					$("#row_select_update").children('td.content').children('span.content').text(_content);
+					_content = _content.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<p.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50);
+					console.log(_content);
+					$("#row_select_update").children('td.content').children('span.visible-content').text(_content+'...');
+					$("#row_select_update").children('td.index-promotion').children('span.image-promotion').text(_image);
+					$("tr#row_select_update").removeAttr('id');
+					$("#edit_data_promotion_popup").modal('hide');
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			$("#add_promotion").click(function(){
+				$("#edit_data_promotion_popup .modal-footer button").attr('id','submit_add_promotion');
+				$("#edit_data_promotion_popup #id_promotion").val('');
+				$("#edit_data_promotion_popup #content_promotion").val('');
+				$("#edit_data_promotion_popup #title_promotion").val('');
+				$("#edit_data_promotion_popup #image_promotion").val('');
+				$("#edit_data_promotion_popup #company_promotion").val('');
+				$("#edit_data_promotion_popup .modal-header h4").text('Thêm liệu Khuyến mãi - Tin tức');
+				$("#edit_data_promotion_popup").modal('show');
+			});
+			$(".modal-footer").on('click','#submit_add_promotion',function(){
+				var _content 	= $("#edit_data_promotion_popup #content_promotion").val();
+				var _title 		= $("#edit_data_promotion_popup #title_promotion").val();
+				var _image 		= $("#edit_data_promotion_popup #image_promotion").val();
+				var _company 	= $("#edit_data_promotion_popup #company_promotion").val();
+				var collection = 'promotion';
+				$.ajax({
+					url: '/insert_data_item',
+					type: 'POST',
+					data: {content: _content, title: _title, image: _image, company: _company, collection: collection},
+				}).done(function(data){
+					$("#edit_data_promotion_popup .modal-footer button").attr('id','submit_promotion');
+					$("#edit_data_promotion_popup #id_promotion").val('');
+					$("#edit_data_promotion_popup #content_promotion").val('');
+					$("#edit_data_promotion_popup #title_promotion").val('');
+					$("#edit_data_promotion_popup #image_promotion").val('');
+					$("#edit_data_promotion_popup #company_promotion").val('');
+					$("#edit_data_promotion_popup .modal-header h4").text('Sửa dữ liệu Khuyến mãi - Tin tức');
+					console.log(data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					for(var i in data){
+						temp_content = convertText(encodeHtmlTag(data[i].content));console.log(temp_content);
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-promotion'>"+(parseInt(i)+1)+"<span class='id-promotion'>"+
+									data[i]._id+"</span><span class='image-promotion'>"+data[i].image+"</span></td>";
+							if(typeof data[i].title != 'undefined'){
+								table_html += "<td class='title'>"+data[i].title+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(data[i].content).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<p.*>/g,'').replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').replace(/<br>/g,'').replace(/<\n.*>/g,'').substr(0,50);
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_promotion[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-promotion'>"+(parseInt(i)+1)+"<span class='id-promotion'>"+
+									data[i]._id+"</span><span class='image-promotion'>"+data[i].image+"</span></td>";
+							if(typeof data[i].title != 'undefined'){
+								table_html += "<td class='title'>"+data[i].title+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(data[i].content).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<u.*>/g,'').replace(/<p.*>/g,'').replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').replace(/<br>/g,'').replace(/<\n.*>/g,'').substr(0,50);
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_promotion[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$('#promotion_pagination').html(pagination_html);
+					$("#promotion table.table").html(table_html);
+					$('#promotion_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+					$("select#edit_data_promotion").val('all');
+					$("#edit_data_promotion_popup").modal('hide');
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			$("select#edit_data_promotion").on('change', function(){
+				$.ajax({
+					url: '/get_list_promotion',
+					type: 'POST',
+					dataType: 'json',
+					data: {company: $(this).val(), action: 'editdata'}
+				}).done(function(data){ console.log(data.length)
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					for(var i in data){
+						temp_content = convertText(encodeHtmlTag(data[i].content));
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-promotion'>"+(parseInt(i)+1)+"<span class='id-promotion'>"+
+									data[i]._id+"</span><span class='image-promotion'>"+data[i].image+"</span></td>";
+							if(typeof data[i].title != 'undefined'){
+								table_html += "<td class='title'>"+data[i].title+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(data[i].content).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<p.*>/g,'').replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').replace(/<br>/g,'').replace(/<\n.*>/g,'').substr(0,50);
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_promotion[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-promotion'>"+(parseInt(i)+1)+"<span class='id-promotion'>"+
+									data[i]._id+"</span><span class='image-promotion'>"+data[i].image+"</span></td>";
+							if(typeof data[i].title != 'undefined'){
+								table_html += "<td class='title'>"+data[i].title+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(data[i].content).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<u.*>/g,'').replace(/<p.*>/g,'').replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').replace(/<br>/g,'').replace(/<\n.*>/g,'').substr(0,50);
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_promotion[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					var temp_paginate;
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$('#promotion_pagination').html(pagination_html);$("#promotion table.table").html(table_html);
+					$('#promotion_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			///////////////////////////////////// onscreen movie///////////////////////////////////////////////
+			$("#onscreenmovie").on('click',"td:not('.del-action')", function(){
+				$("#company_onscreenmovie").val($(this).parent().children('td.company').text());
+				$("#name_onscreenmovie").val($(this).parent().children('td.title').text());
+				$("#intro_onscreenmovie").val($(this).parent().children('td.content').children('span.content').text());
+				$("#image_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.image-onscreenmovie').text());
+				$("#trailer_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.trailer').text());
+				$("#start_time_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.start-time').text());
+				$("#end_time_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.end-time').text());
+				$("#length_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.length').text());
+				$("#kind_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.kind').text());
+				$("#director_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.director').text());
+				$("#player_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.player').text());
+				$("#version_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.version').text());
+				$("#note_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.note').text());
+				$("#id_onscreenmovie").val($(this).parent().children('td.index-onscreenmovie').children('span.id-onscreenmovie').text());
+				$(this).parent().parent().children('tr').each(function(index){
+					if($(this).attr('id') == 'row_select_update_onscreenmovie'){
+						$(this).removeAttr('id');
+					}
+				});
+				$(this).parent().attr('id','row_select_update_onscreenmovie');
+				$("#edit_data_onscreenmovie_popup").modal('show');
+			});
+			$("#onscreenmovie_pagination").on('click', 'li a', function(event){ ///pagination
+				$("#onscreenmovie_pagination li").each(function(){
+					$(this).removeClass('active');
+				});
+				$(this).parent().addClass('active');
+				var page = $(this).data('paginate') - 1;
+				$("#onscreenmovie table tr").each(function(index){ console.log("page: "+page+"; index: "+index)
+					if(index == 0) return;
+					if(index == (page*10+index%10)){
+						$(this).css('display','');
+					}else{
+						$(this).css('display','none');	///$(this) is trigger current element in lop
+					}
+				});
+			});
+			$("#onscreenmovie table.table").on('click','tr button',function(){////// xoa phim
+				var arr_item_del = [];
+				$("#onscreenmovie td.del-action input[type='checkbox']:checked").each(function(index){
+					arr_item_del.push($(this).val());
+				});
+				var data = {collection: 'onScreenMovie', arrId: arr_item_del.join(",")};
+				$.ajax({
+					url: '/del_data_items',
+					type:'POST',
+					dataType:'json',
+					data: data,
+				}).done(function(data){
+					console.log("success: ",data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					var intro = '';
+					for(var i in data){
+						if(typeof data[i].intro != 'undefined'){
+							intro = data[i].intro;
+						}else{
+							intro = '';
+						}
+						temp_content = intro;
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-onscreenmovie'>"+(parseInt(i)+1)+"<span class='id-onscreenmovie'>"+
+									data[i]._id+"</span><span class='image-onscreenmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+
+										  "<span class='version'>"+data[i].version+"</span>"+
+										  "<span class='note'>"+data[i].note+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_onscreenmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-onscreenmovie'>"+(parseInt(i)+1)+"<span class='id-onscreenmovie'>"+
+									data[i]._id+"</span><span class='image-onscreenmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+
+										  "<span class='version'>"+data[i].version+"</span>"+
+										  "<span class='note'>"+data[i].note+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_onscreenmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$('#onscreenmovie_pagination').html(pagination_html);
+					$("#onscreenmovie table.table").html(table_html);
+					$('#onscreenmovie_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+					$("select#edit_data_onscreenmovie").val('all');
+				}).fail(function(err){
+					console.log(err);
+				});
+			});
+			$("#add_onscreenmovie").click(function(){
+				$("#edit_data_onscreenmovie_popup .modal-footer button").attr('id','submit_add_onscreenmovie');
+				$("#edit_data_onscreenmovie_popup #id_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #intro_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #name_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #image_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #trailer_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #start_time_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #end_time_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #length_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #kind_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #director_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #version_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #note_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #player_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup #company_onscreenmovie").val('');
+				$("#edit_data_onscreenmovie_popup .modal-header h4").text('Thêm liệu Khuyến mãi - Tin tức');
+				$("#edit_data_onscreenmovie_popup").modal('show');
+			});
+			$(".modal-footer").on('click','#submit_add_onscreenmovie',function(){
+				var _data = {};
+				_data._content 	= $("#edit_data_onscreenmovie_popup #intro_onscreenmovie").val();
+				_data._title 	= $("#edit_data_onscreenmovie_popup #name_onscreenmovie").val();
+				_data._image 	= $("#edit_data_onscreenmovie_popup #image_onscreenmovie").val();
+				_data._trailer	= $("#edit_data_onscreenmovie_popup #trailer_onscreenmovie").val();
+				_data._start_time= $("#edit_data_onscreenmovie_popup #start_time_onscreenmovie").val();
+				_data._end_time	= $("#edit_data_onscreenmovie_popup #end_time_onscreenmovie").val();
+				_data._length	= $("#edit_data_onscreenmovie_popup #length_onscreenmovie").val();
+				_data._kind		= $("#edit_data_onscreenmovie_popup #kind_onscreenmovie").val();
+				_data._director	= $("#edit_data_onscreenmovie_popup #director_onscreenmovie").val();
+				_data._version	= $("#edit_data_onscreenmovie_popup #version_onscreenmovie").val();
+				_data._note		= $("#edit_data_onscreenmovie_popup #note_onscreenmovie").val();
+				_data._player	= $("#edit_data_onscreenmovie_popup #player_onscreenmovie").val();
+				_data._company 	= $("#edit_data_onscreenmovie_popup #company_onscreenmovie").val();
+				_data.collection = 'onScreenMovie';
+				$.ajax({
+					url: '/insert_data_item',
+					type: 'POST',
+					data: _data,
+				}).done(function(data){
+					$("#edit_data_onscreenmovie_popup .modal-footer button").attr('id','submit_onscreenmovie');
+					$("#edit_data_onscreenmovie_popup #id_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #content_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #title_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #image_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #trailer_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #start_time_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #end_time_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #length_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #kind_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #director_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #version_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #note_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #player_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #company_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup #company_onscreenmovie").val('');
+					$("#edit_data_onscreenmovie_popup .modal-header h4").text('Sửa dữ liệu Khuyến mãi - Tin tức');
+					console.log(data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					var intro = '';
+					for(var i in data){
+						if(typeof data[i].intro != 'undefined'){
+							intro = data[i].intro;
+						}else{
+							intro = '';
+						}
+						temp_content = intro;
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-onscreenmovie'>"+(parseInt(i)+1)+"<span class='id-onscreenmovie'>"+
+									data[i]._id+"</span><span class='image-onscreenmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+
+										  "<span class='version'>"+data[i].version+"</span>"+
+										  "<span class='note'>"+data[i].note+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_onscreenmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-onscreenmovie'>"+(parseInt(i)+1)+"<span class='id-onscreenmovie'>"+
+									data[i]._id+"</span><span class='image-onscreenmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+
+										  "<span class='version'>"+data[i].version+"</span>"+
+										  "<span class='note'>"+data[i].note+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_onscreenmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$("#onscreenmovie table.table").html(table_html);$('#onscreenmovie_pagination').html(pagination_html);
+					$('#onscreenmovie_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+					$("select#edit_data_onscreenmovie").val('all');
+					$("#edit_data_onscreenmovie_popup").modal('hide');
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			$("select#edit_data_onscreenmovie").on('change', function(){
+				$.ajax({
+					url: '/get_movies',
+					type: 'POST',
+					dataType: 'json',
+					data: {company: $(this).val(), collection: 'onScreenMovie'}
+				}).done(function(data){ console.log(data.length)
+					console.log(data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					var intro = '';
+					for(var i in data){
+						if(typeof data[i].intro != 'undefined' && data[i].intro != null){
+							intro = data[i].intro;
+						}else{
+							intro = '';
+						}
+						temp_content = intro;console.log(temp_content);
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-onscreenmovie'>"+(parseInt(i)+1)+"<span class='id-onscreenmovie'>"+
+									data[i]._id+"</span><span class='image-onscreenmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+
+										  "<span class='version'>"+data[i].version+"</span>"+
+										  "<span class='note'>"+data[i].note+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_onscreenmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-onscreenmovie'>"+(parseInt(i)+1)+"<span class='id-onscreenmovie'>"+
+									data[i]._id+"</span><span class='image-onscreenmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+
+										  "<span class='version'>"+data[i].version+"</span>"+
+										  "<span class='note'>"+data[i].note+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_onscreenmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$("#onscreenmovie table.table").html(table_html);$('#onscreenmovie_pagination').html(pagination_html);
+					$('#onscreenmovie_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			$(".modal-footer").on('click','#submit_onscreenmovie',function(){
+				var _data = {};
+				_data._content 	= $("#edit_data_onscreenmovie_popup #intro_onscreenmovie").val();
+				_data._title 	= $("#edit_data_onscreenmovie_popup #name_onscreenmovie").val();
+				_data._image 	= $("#edit_data_onscreenmovie_popup #image_onscreenmovie").val();
+				_data._trailer	= $("#edit_data_onscreenmovie_popup #trailer_onscreenmovie").val();
+				_data._start_time= $("#edit_data_onscreenmovie_popup #start_time_onscreenmovie").val();
+				_data._end_time	= $("#edit_data_onscreenmovie_popup #end_time_onscreenmovie").val();
+				_data._length	= $("#edit_data_onscreenmovie_popup #length_onscreenmovie").val();
+				_data._kind		= $("#edit_data_onscreenmovie_popup #kind_onscreenmovie").val();
+				_data._director	= $("#edit_data_onscreenmovie_popup #director_onscreenmovie").val();
+				_data._version	= $("#edit_data_onscreenmovie_popup #version_onscreenmovie").val();
+				_data._note		= $("#edit_data_onscreenmovie_popup #note_onscreenmovie").val();
+				_data._player	= $("#edit_data_onscreenmovie_popup #player_onscreenmovie").val();
+				_data._company 	= $("#edit_data_onscreenmovie_popup #company_onscreenmovie").val();
+				_data._id 		= $("#edit_data_onscreenmovie_popup #id_onscreenmovie").val();
+				_data.collection = 'onScreenMovie';
+				$.ajax({
+					url:'/update_data_item',
+					type: 'POST',
+					data: _data,
+				}).done(function(data){
+					console.log("success:",data);
+					$("#row_select_update_onscreenmovie").children('td.title').text(_data._title);
+					$("#row_select_update_onscreenmovie").children('td.company').text(_data._company);
+					$("#row_select_update_onscreenmovie").children('td.content').children('span.content').text(_data._content);
+					$("#row_select_update_onscreenmovie").children('td.content').children('span.visible-content').text(_data._content.replace(/<(?:.|\n)*?>/gm, '').substr(0,50)+'...');
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.image-onscreenmovie').text(_data._image);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.trailer').text(_data._image);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.start-time').text(_data._start_time);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.end-time').text(_data._end_time);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.kind').text(_data._kind);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.player').text(_data._player);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.director').text(_data._director);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.length').text(_data._length);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.version').text(_data._version);
+					$("#row_select_update_onscreenmovie").children('td.index-onscreenmovie').children('span.note').text(_data._note);
+					$("tr#row_select_update_onscreenmovie").removeAttr('id');
+					$("#edit_data_onscreenmovie_popup").modal('hide');
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			////////////////////////////////////////commingsoon movie
+			$("#commingsoonmovie").on('click','td:not(.del-action)',function(){
+				$("#company_commingsoonmovie").val($(this).parent().children('td.company').text());
+				$("#name_commingsoonmovie").val($(this).parent().children('td.title').text());
+				$("#intro_commingsoonmovie").val($(this).parent().children('td.content').children('span.content').text());
+				$("#image_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.image-commingsoonmovie').text());
+				$("#trailer_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.trailer').text());
+				$("#start_time_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.start-time').text());
+				$("#length_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.length').text());
+				$("#kind_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.kind').text());
+				$("#director_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.director').text());
+				$("#player_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.player').text());
+				$("#id_commingsoonmovie").val($(this).parent().children('td.index-commingsoonmovie').children('span.id-commingsoonmovie').text());
+				$(this).parent().parent().children('tr').each(function(index){
+					if($(this).attr('id') == 'row_select_update_commingsoonmovie'){
+						$(this).removeAttr('id');
+					}
+				});
+				$(this).parent().attr('id','row_select_update_commingsoonmovie');
+				$("#edit_data_commingsoonmovie_popup").modal('show');
+			});
+			$("#commingsoonmovie_pagination").on('click', 'li a', function(event){ ///pagination
+				$("#commingsoonmovie_pagination li").each(function(){
+					$(this).removeClass('active');
+				});
+				$(this).parent().addClass('active');
+				var page = $(this).data('paginate') - 1;
+				$("#commingsoonmovie table tr").each(function(index){ console.log("page: "+page+"; index: "+index)
+					if(index == 0) return;
+					if(index == (page*10+index%10)){
+						$(this).css('display','');
+					}else{
+						$(this).css('display','none');	///$(this) is trigger current element in lop
+					}
+				});
+			});
+			$("#commingsoonmovie table.table").on('click','tr button',function(){////// xoa phim
+				var arr_item_del = [];
+				$("#commingsoonmovie td.del-action input[type='checkbox']:checked").each(function(index){
+					arr_item_del.push($(this).val());
+				});
+				var data = {collection: 'commingSoonMovie', arrId: arr_item_del.join(",")};
+				$.ajax({
+					url: '/del_data_items',
+					type:'POST',
+					dataType:'json',
+					data: data,
+				}).done(function(data){
+					console.log("success: ",data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					var intro = '';
+					for(var i in data){
+						if(typeof data[i].intro != 'undefined'){
+							intro = data[i].intro;
+						}else{
+							intro = '';
+						}
+						temp_content = convertText(intro);console.log(temp_content);
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-commingsoonmovie'>"+(parseInt(i)+1)+"<span class='id-commingsoonmovie'>"+
+									data[i]._id+"</span><span class='image-commingsoonmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(intro).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_commingsoonmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-commingsoonmovie'>"+(parseInt(i)+1)+"<span class='id-commingsoonmovie'>"+
+									data[i]._id+"</span><span class='image-commingsoonmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+convertText(intro).replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_commingsoonmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$('#commingsoonmovie_pagination').html(pagination_html);
+					$("#commingsoonmovie table.table").html(table_html);
+					$('#commingsoonmovie_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+					$("select#edit_data_commingsoonmovie").val('all');
+				}).fail(function(err){
+					console.log(err);
+				});
+			});
+			$("#add_commingsoonmovie").click(function(){
+				$("#edit_data_commingsoonmovie_popup .modal-footer button").attr('id','submit_add_commingsoonmovie');
+				$("#edit_data_commingsoonmovie_popup #id_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #intro_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #name_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #image_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #trailer_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #start_time_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #length_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #kind_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #director_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #player_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup #company_commingsoonmovie").val('');
+				$("#edit_data_commingsoonmovie_popup .modal-header h4").text('Thêm liệu Khuyến mãi - Tin tức');
+				$("#edit_data_commingsoonmovie_popup").modal('show');
+			});
+			$(".modal-footer").on('click','#submit_add_commingsoonmovie',function(){
+				var _data = {};
+				_data._content 	= $("#edit_data_commingsoonmovie_popup #intro_commingsoonmovie").val();
+				_data._title 	= $("#edit_data_commingsoonmovie_popup #name_commingsoonmovie").val();
+				_data._image 	= $("#edit_data_commingsoonmovie_popup #image_commingsoonmovie").val();
+				_data._trailer	= $("#edit_data_commingsoonmovie_popup #trailer_commingsoonmovie").val();
+				_data._start_time= $("#edit_data_commingsoonmovie_popup #start_time_commingsoonmovie").val();
+				_data._length	= $("#edit_data_commingsoonmovie_popup #length_commingsoonmovie").val();
+				_data._kind		= $("#edit_data_commingsoonmovie_popup #kind_commingsoonmovie").val();
+				_data._director	= $("#edit_data_commingsoonmovie_popup #director_commingsoonmovie").val();
+				_data._player	= $("#edit_data_commingsoonmovie_popup #player_commingsoonmovie").val();
+				_data._company 	= $("#edit_data_commingsoonmovie_popup #company_commingsoonmovie").val();
+				_data.collection = 'commingSoonMovie';
+				$.ajax({
+					url: '/insert_data_item',
+					type: 'POST',
+					data: _data,
+				}).done(function(data){
+					$("#edit_data_commingsoonmovie_popup .modal-footer button").attr('id','submit_commingsoonmovie');
+					$("#edit_data_commingsoonmovie_popup #id_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #content_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #title_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #image_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #trailer_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #start_time_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #length_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #kind_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #director_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #player_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #company_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup #company_commingsoonmovie").val('');
+					$("#edit_data_commingsoonmovie_popup .modal-header h4").text('Sửa dữ liệu Khuyến mãi - Tin tức');
+					console.log(data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					var intro = '';
+					for(var i in data){
+						if(typeof data[i].intro != 'undefined'){
+							intro = data[i].intro;
+						}else{
+							intro = '';
+						}
+						temp_content = intro;
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-commingsoonmovie'>"+(parseInt(i)+1)+"<span class='id-commingsoonmovie'>"+
+									data[i]._id+"</span><span class='image-commingsoonmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_commingsoonmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-commingsoonmovie'>"+(parseInt(i)+1)+"<span class='id-commingsoonmovie'>"+
+									data[i]._id+"</span><span class='image-commingsoonmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_commingsoonmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$("#commingsoonmovie table.table").html(table_html);$('#commingsoonmovie_pagination').html(pagination_html);
+					$('#commingsoonmovie_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+					$("select#edit_data_commingsoonmovie").val('all');
+					$("#edit_data_commingsoonmovie_popup").modal('hide');
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			$("select#edit_data_commingsoonmovie").on('change', function(){
+				$.ajax({
+					url: '/get_movies',
+					type: 'POST',
+					dataType: 'json',
+					data: {company: $(this).val(), collection: 'commingSoonMovie'}
+				}).done(function(data){ console.log(data.length)
+					console.log(data);
+					var table_html = "<tr class='text-center'><th>#<th>Tiêu Đề<th>Nội Dung<th>Cụm Rạp<th><button type='button' style='background: #05ceff; border: none;' class='glyphicon glyphicon-trash'></button>";
+					var temp_content = '';
+					var intro = '';
+					for(var i in data){
+						if(typeof data[i].intro != 'undefined' && data[i].intro != null){
+							intro = data[i].intro;
+						}else{
+							intro = '';
+						}
+						temp_content = intro;
+						if(i >= 9){
+							table_html += "<tr style='display: none;'><td class='index-commingsoonmovie'>"+(parseInt(i)+1)+"<span class='id-commingsoonmovie'>"+
+									data[i]._id+"</span><span class='image-commingsoonmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_commingsoonmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}else{
+							table_html += "<tr><td class='index-commingsoonmovie'>"+(parseInt(i)+1)+"<span class='id-commingsoonmovie'>"+
+									data[i]._id+"</span><span class='image-commingsoonmovie'>"+data[i].image+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>"+
+									"<span class='start-time'>"+data[i].start_time+"</span>"+
+									"<span class='end-time'>"+data[i].end_time+"</span>"+
+									"<span class='kind'>"+data[i].kind.join(',')+"</span>"+
+									"<span class='player'>"+data[i].player.join(',')+"</span>"+
+									"<span class='trailer'>"+data[i].trailer+"</span>";
+							if(data[i].director.length > 1){
+								table_html += "<span class='director'>"+data[i].director.join(',')+"</span>";
+							}else{
+								table_html += "<span class='director'>"+data[i].director+"</span>";
+							}
+							table_html += "<span class='length'>"+data[i].length+"</span>"+"</td>";
+							if(typeof data[i].name != 'undefined'){
+								table_html += "<td class='title'>"+data[i].name+"</td>";
+							}else{
+								table_html += "<td class='title'></td>";
+							}
+							table_html += "<td class='content'><span class='visible-content'>"+intro.replace(/<(?:.|\n)*?>/gm, '').substr(0,50);//.replace(/<ul.*>/g,'').replace(/<li.*>/g,'').replace(/<strong.*>/g,'').replace(/<iframe.*\/iframe>/g,'').replace(/<div.*>/g,'').replace(/<span.*>/g,'').replace(/<img.*>/g,'').replace(/<\/.*>/g,'').substr(0,50)+'...';
+							table_html += "</span><span class='content'>"+temp_content+"</span></td>"+
+									 "<td class='company'>"+data[i].company+"</td>"+
+									 "<td class='del-action'><input type='checkbox' name='del_commingsoonmovie[]' value='"+data[i]._id+"'/></td></tr>";
+						}
+					}
+					var page = data.length/10;
+					var pagination_html = "";
+					for(var i = 0; i < page; i++){
+						if(i > 0){
+							pagination_html += "<li><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}else{
+							pagination_html += "<li class='active'><a href='javascript:void(0)' data-paginate='"+(i+1)+"'>"+(i+1)+"</a></li>";
+						}
+					}
+					$("#commingsoonmovie table.table").html(table_html);$('#commingsoonmovie_pagination').html(pagination_html);
+					$('#commingsoonmovie_pagination li').each(function(index){
+						if(index == 0){
+							$(this).addClass('active');
+						}else{
+							$(this).removeClass('active');
+						}
+					});
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+			$(".modal-footer").on('click','#submit_commingsoonmovie',function(){
+				var _data = {};
+				_data._content 	= $("#edit_data_commingsoonmovie_popup #intro_commingsoonmovie").val();
+				_data._title 	= $("#edit_data_commingsoonmovie_popup #name_commingsoonmovie").val();
+				_data._image 	= $("#edit_data_commingsoonmovie_popup #image_commingsoonmovie").val();
+				_data._trailer	= $("#edit_data_commingsoonmovie_popup #trailer_commingsoonmovie").val();
+				_data._start_time= $("#edit_data_commingsoonmovie_popup #start_time_commingsoonmovie").val();
+				_data._length	= $("#edit_data_commingsoonmovie_popup #length_commingsoonmovie").val();
+				_data._kind		= $("#edit_data_commingsoonmovie_popup #kind_commingsoonmovie").val();
+				_data._director	= $("#edit_data_commingsoonmovie_popup #director_commingsoonmovie").val();
+				_data._player	= $("#edit_data_commingsoonmovie_popup #player_commingsoonmovie").val();
+				_data._company 	= $("#edit_data_commingsoonmovie_popup #company_commingsoonmovie").val();
+				_data._id 		= $("#edit_data_commingsoonmovie_popup #id_commingsoonmovie").val();
+				_data.collection = 'commingSoonMovie'; console.log(_data._id);
+				$.ajax({
+					url:'/update_data_item',
+					type: 'POST',
+					data: _data,
+				}).done(function(data){
+					console.log("success:",data);
+					$("#row_select_update_commingsoonmovie").children('td.title').text(_data._title);
+					$("#row_select_update_commingsoonmovie").children('td.company').text(_data._company);
+					$("#row_select_update_commingsoonmovie").children('td.content').children('span.content').text(_data._content);
+					$("#row_select_update_commingsoonmovie").children('td.content').children('span.visible-content').text(_data._content.replace(/<(?:.|\n)*?>/gm, '').substr(0,50)+'...');
+					$("#row_select_update_commingsoonmovie").children('td.index-commingsoonmovie').children('span.image-commingsoonmovie').text(_data._image);
+					$("#row_select_update_commingsoonmovie").children('td.index-commingsoonmovie').children('span.trailer').text(_data._image);
+					$("#row_select_update_commingsoonmovie").children('td.index-commingsoonmovie').children('span.start-time').text(_data._start_time);
+					$("#row_select_update_commingsoonmovie").children('td.index-commingsoonmovie').children('span.kind').text(_data._kind);
+					$("#row_select_update_commingsoonmovie").children('td.index-commingsoonmovie').children('span.player').text(_data._player);
+					$("#row_select_update_commingsoonmovie").children('td.index-commingsoonmovie').children('span.director').text(_data._director);
+					$("#row_select_update_commingsoonmovie").children('td.index-commingsoonmovie').children('span.length').text(_data._length);
+					$("tr#row_select_update_commingsoonmovie").removeAttr('id');
+					$("#edit_data_commingsoonmovie_popup").modal('hide');
+				}).fail(function(err){
+					console.log("err: ",err);
+				});
+			});
+		});

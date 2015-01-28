@@ -1,0 +1,161 @@
+.option-location-content, .option-date-content, .option-name-content, .option-cinema-content, .option-kind-content,
+.option-player-content, .option-director-content, .option-age-content, .option-jobs-content, .option-time-content,
+.option-cinema-content ul li .list-company, p#notify, .content_search_advance{ /*, */
+	display:none;
+}
+#suggestions h1{
+	text-align: center;
+	text-shadow: 2px 2px #ccc;
+}
+input[type='checkbox']{
+	margin-right: 4px;
+	margin-left: 10px;
+}
+.company{
+	width: 100%;
+	height: 23px;
+	line-height: 23px;
+	font-size: 17px;
+	background: #374551;
+	text-align: center;
+	color: white;
+}
+#submit{
+	width: 100%;
+}
+.option-cinema ul, ul#items {
+	list-style-type: none;
+}
+.option-cinema-content ul li{
+	margin-bottom: 5px;
+}
+.option-cinema-content ul li .company:hover, #items .movieTitle a, span.glyphicon-arrow-down, span.glyphicon-arrow-up{
+	cursor: pointer;
+}
+.content-list-film .thumbnail{
+	height: 220px;
+}
+.page_navigation a{
+	margin: 5px;
+	padding: 5px;
+	width: 39px;
+	border: solid 1px #15b;
+}
+.page_navigation .active_page{
+	background-color: #337AB7;
+	color: white;
+}
+ul#items h4 {
+	display: inline-block;
+	font-weight: bold;
+}
+ul#items li strong.location{
+	float: right;
+	position: relative;
+	top: 10px;
+}
+ul#items li .thumbnail{
+	position: relative;
+}
+.content-list-film .thumbnail img{
+	height: 100%;
+	width: 100%;
+}
+span.company_suggestion{
+	background-color: #2185C5;
+	color: white;
+	position: absolute;
+	bottom: 30px;
+	left: 10px;
+	padding: 0 5px;
+	border-radius: 5px;
+}
+span.cineplex_suggestion{
+	background-color: #05CEFF;
+	color: white;
+	position: absolute;
+	bottom: 5px;
+	left: 10px;
+	padding: 0 5px;
+	border-radius: 5px;
+}
+span.distance{
+	background-color: #000;
+	color: white;
+	position: absolute;
+	bottom: 30px;
+	right: 10px;
+	padding: 0 5px;
+	border-radius: 5px;
+}
+#pop-up{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: none;
+	z-index: 2000;
+}
+#pop-up-background{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: black;
+	opacity: 0.3;
+}
+#pop-up-content{
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -100px;
+	color: white;
+}
+.modal-content{
+	top: 50px;
+}
+/* .modal-header .close{
+	margin-top: -10px;
+} */
+#popupSchedule .modal-body p.schedule-date{
+	text-align: center;
+	background-color: #00B7FF;
+	color:white;
+	font-weight: bold;
+}
+#popupSchedule .modal-body p.schedule-time{
+	padding-left: 10px;
+}
+#popupSchedule .modal-body p.schedule-time span.schedule-time{
+	border-left: 2px solid #00B7FF;
+	padding: 0 8px;
+}
+#popupSchedule .modal-body p.schedule-time span.schedule-time:first-of-type{
+	border-left: 0;
+}
+span.glyphicon-chevron-down, span.glyphicon-chevron-up{
+	border: 1px solid black;
+	padding: 5px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+p#notify{
+	margin-bottom: 25px;
+	font-size: 18pt;
+	font-weight: bold;
+}
+#suggestions .search_advance strong{
+	border-radius: 5px;
+	border: 2px solid #05ceff;
+	padding: 5px 10px;
+	color: #05ceff;
+	cursor: pointer;
+}
+#suggestions .search_advance strong .glyphicon-chevron-down, #suggestions .search_advance strong .glyphicon-chevron-up{
+	border: none;
+}

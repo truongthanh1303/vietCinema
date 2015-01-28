@@ -1,0 +1,106 @@
+extends admin
+block headHtml
+	link(rel='stylesheet',type='text/css',href='/css/rank_point.css')
+
+block content
+	h1.text-center SỬA ĐIỂM RANKING
+	button(type="button", data-toggle="collapse", data-target=".admin-panel").button-toggle
+		span.glyphicon.glyphicon-list-alt
+	.collapse.admin-panel
+		ul.nav.navbar-nav
+			li: a(href="/admin-registers") Tạo TK Quản Trị
+			li: a(href="/edit-data") Sửa Dữ Liệu Phim
+			li: a(href="/point") Sửa Điểm Theo Thể Loại
+			li: a(href="/job_point") Sửa Điểm Theo Ng.Nghề
+	hr/
+	div.rank_point_content
+		div#point-edit.col-md-8.col-lg-8.col-md-offset-1.col-lg-offset-1
+			.col-md-5.col-lg-5
+				label
+					= "Khoảng Cách"
+			.col-md-6.col-lg-6.col-md-offset-1.col-lg-offset-1
+					- if(rank_arr && rank_arr.distance)
+						input.form-control#distance(type='text',value=rank_arr.distance)
+					- else
+						input.form-control#distance(type='text',value=0)
+			.clearfix
+			.col-md-5.col-lg-5
+				label
+					= "Tuổi"
+			.col-md-6.col-lg-6.col-md-offset-1.col-lg-offset-1
+					- if(rank_arr && rank_arr.age)
+						input.form-control#age(type='text',value=rank_arr.age)
+					- else
+						input.form-control#age(type='text',value=0)
+			.clearfix
+			.col-md-5.col-lg-5
+				label
+					= "Đạo Diễn, Diễn Viên"
+			.col-md-6.col-lg-6.col-md-offset-1.col-lg-offset-1
+					- if(rank_arr && rank_arr.director_player)
+						input.form-control#director_player(type='text',value=rank_arr.director_player)
+					- else
+						input.form-control#director_player(type='text',value=0)
+			.clearfix
+			.col-md-5.col-lg-5
+				label
+					= "Rạp"
+			.col-md-6.col-lg-6.col-md-offset-1.col-lg-offset-1
+					- if(rank_arr && rank_arr.cineplex)
+						input.form-control#cineplex(type='text',value=rank_arr.cineplex)
+					- else
+						input.form-control#cineplex(type='text',value=0)
+			.clearfix
+			.col-md-5.col-lg-5
+				label
+					= "Cụm Rạp"
+			.col-md-6.col-lg-6.col-md-offset-1.col-lg-offset-1
+					- if(rank_arr && rank_arr.company)
+						input.form-control#company(type='text',value=rank_arr.company)
+					- else
+						input.form-control#company(type='text',value=0)
+			.clearfix
+			.col-md-5.col-lg-5
+				label
+					= "Tên Phim"
+			.col-md-6.col-lg-6.col-md-offset-1.col-lg-offset-1
+					- if(rank_arr && rank_arr.name)
+						input.form-control#name(type='text',value=rank_arr.name)
+					- else
+						input.form-control#name(type='text',value=0)
+			.clearfix
+			.col-md-5.col-lg-5
+				label
+					= "Thời Gian"
+			.col-md-6.col-lg-6.col-md-offset-1.col-lg-offset-1
+					- if(rank_arr && rank_arr.date)
+						input.form-control#date(type='text',value=rank_arr.date)
+					- else
+						input.form-control#date(type='text',value=0)
+		.clearfix
+		br/
+		div.col-md-4.col-lg-4.col-md-offset-4.col-lg-offset-4.text-center#point-btn
+			button.btn.btn-info.form-control#submit= "Lưu"
+	.clearfix
+	hr/
+	.footer
+		include footer
+	script.
+		$("#submit").click(function(){
+			var data ={};
+			data.distance = $("#distance").val() && !isNaN($("#distance").val()) ? $("#distance").val() : 0;
+			data.age = $("#age").val() && !isNaN($("#age").val()) ? $("#age").val() : 0;
+			data.name = $("#name").val() && !isNaN($("#name").val()) ? $("#name").val() : 0;
+			data.date = $("#date").val() && !isNaN($("#date").val()) ? $("#date").val() : 0;
+			data.director_player = $("#director_player").val() && !isNaN($("#director_player").val()) ? $("#director_player").val() : 0;
+			data.company = $("#company").val() && !isNaN($("#company").val()) ? $("#company").val() : 0;
+			data.cineplex = $("#cineplex").val() && !isNaN($("#cineplex").val()) ? $("#cineplex").val() : 0;
+			$.ajax("/ajax_rank_edit",{dataType:"json",type:"GET",data:{"rank_arr":data}}).done(function(data){
+				if(data.err){
+					alert(data.err);
+				}
+				else{
+					alert(data.success);
+				}
+			});
+		});

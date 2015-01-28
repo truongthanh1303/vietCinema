@@ -1,0 +1,280 @@
+extends headfilm
+block headHtml
+	script(type="text/javascript", src="/bjqs/js/bjqs-1.3.min.js")
+	link(rel="stylesheet", type="text/css", href="/bjqs/bjqs.css")
+block content
+	.row.hidden-xs
+		div.carousel.slide#myCarousel(data-interval='3000000',data-ride="carousel")
+			ol.carousel-indicators
+				li(data-target="#myCarousel", data-slide-to="0", class="active")
+				li(data-target="#myCarousel", data-slide-to="1")
+				li(data-target="#myCarousel", data-slide-to="2")
+				li(data-target="#myCarousel", data-slide-to="3")
+				li(data-target="#myCarousel", data-slide-to="4")
+			div.carousel-inner
+				div.item.active
+					img(src="/img/rap/lotte/introduce_cinema.JPG", alt="Lotte Cinema")
+					div.carousel-caption
+						h4 LOTTE Cinema
+						p Lotte Cinema Việt Nam đã có 12 cụm rạp chiếu phim hiện đại tại Thành phố Hồ Chí Minh (Lotte Cinema Cantavil, Lotte Cinema Cộng Hòa, Lotte Cinema Diamond, Lotte Cinema Nam Sài Gòn, Lotte Cinema Phú Thọ), Hà Nội (Lotte Cinema Landmark, Lotte Cinema Hà Đông), các địa phương khác (Lotte Cinema Nha Trang, Lotte Cinema Đà Nẵng, Lotte Cinema Đồng Nai, Lotte Cinema Bình Dương, Lotte Cinema Phan Thiết) với hệ thống phòng chiếu phim cao cấp, hiện đại cùng thiết kế sang trọng, ấm cúng.
+				div.item
+					img(src="/img/rap/galaxy/galaxy.jpg", alt="Galaxy Cinema")
+					div.carousel-caption
+						h4 GALAXY Cinema
+						p Thành lập năm 2003, Galaxy Cinema là cụm rạp mang tiêu chuẩn Hollywood hiện đại bậc nhất đầu tiên xuất hiện tại Việt Nam. Hiện Galaxy cinema có 5 cụm rạp tại TpHCM: Galaxy Nguyễn Trãi, Galaxy Nguyễn Du, Galaxy Tân Bình, Galaxy Kinh Dương Vương, Galaxy Quang Trung.
+				div.item
+					img(src="/img/rap/bhd/bhd-star-cinema-.jpg", alt="BHD Cinema")
+					div.carousel-caption
+						h4 BHD Cinema
+						p Đến với cụm rạp BHD Star Cinema, khán giả không chỉ được thưởng thức những tác phẩm điện ảnh xuất sắc của thế giới cùng với những ngôi sao Việt Nam mà còn có cơ hội gặp gỡ, giao lưu, trò chuyện và lưu lại những khoảnh khắc đáng nhớ với những nghệ sỹ mà mình yêu thích.
+				div.item
+					img(src="/img/rap/platinum/platinum.jpeg", alt="Platinum Cinema")
+					div.carousel-caption
+						h4 PLATINUM Cinema
+						p Đến với cụm rạp BHD Star Cinema, khán giả không chỉ được thưởng thức những tác phẩm điện ảnh xuất sắc của thế giới cùng với những ngôi sao Việt Nam mà còn có cơ hội gặp gỡ, giao lưu, trò chuyện và lưu lại những khoảnh khắc đáng nhớ với những nghệ sỹ mà mình yêu thích.
+				div.item
+					img(src="/img/rap/cgv/cgv.PNG", alt="CGV Cinema")
+					div.carousel-caption
+						h4 CGV Cinema
+						p Đến với cụm rạp BHD Star Cinema, khán giả không chỉ được thưởng thức những tác phẩm điện ảnh xuất sắc của thế giới cùng với những ngôi sao Việt Nam mà còn có cơ hội gặp gỡ, giao lưu, trò chuyện và lưu lại những khoảnh khắc đáng nhớ với những nghệ sỹ mà mình yêu thích.
+			a.left.carousel-control(href="#myCarousel", data-slide="prev", role="button") <span class="glyphicon glyphicon-chevron-left"></span>
+			a.right.carousel-control(href="#myCarousel", data-slide="next") <span class="glyphicon glyphicon-chevron-right"></span>
+	hr/
+
+	.content-body.row
+		//content
+		.row#nowshowing
+			.col-sm-12.col-md-12.col-lg-12
+				.panel.panel-default
+					.panel-heading PHIM ĐANG CHIẾU
+					.panel-body
+						#slide1.hidden-xs
+							ul.bjqs
+								- for ( var i in schedule_arr)
+									- for ( var j in movie_arr)
+										- if (movie_arr[j].name == schedule_arr[i].movie)
+											li.col-sm-12.col-md-12.col-lg-12.slide1
+												.col-sm-3.col-md-3.col-lg-3
+													.thumbnail
+														a(href=""): img(src=movie_arr[j]['image'], alt="")
+												.col-sm-9.col-md-9.col-lg-9.text
+													a(href=_host+"/detailMovie/onScreenMovie/"+schedule_arr[i].company+"/"+movie_arr[j]["_id"], target="_blank"): h2= schedule_arr[i].movie
+													p.company=	schedule_arr[i].company.toUpperCase() + " CINEMA - " + schedule_arr[i].cinema
+													//p.cinema=	schedule_arr[i].cinema
+													strong: p.date= schedule_arr[i].date
+													- var now = new Date();
+													- var now_hour = now.getHours();
+													- var now_minute = now.getMinutes();
+													p
+														- if(schedule_arr[i].time.length > 6)
+															- for (var k = 0 ; k < schedule_arr[i].time.length ; k++)
+																- var times = schedule_arr[i].time[k].split(":");
+																- var hour = parseInt(times[0]);
+																- var minute = parseInt(times[1]);
+																- if (hour > now_hour || (now_hour == hour && minute > now_minute))
+																	span.near-time= schedule_arr[i].time[k]
+																	- break;
+															div.slide1-hiden
+																div.slide1-hiden-bg.container
+																div.slide1-hiden-content
+																	- for(var j = 0 ; j < schedule_arr[i].time.length ; j++)
+																		span.time= schedule_arr[i].time[j]
+														- else
+															- for (var k = 0 ; k < schedule_arr[i].time.length ; k++)
+																- var times = schedule_arr[i].time[k].split(":");
+																- var hour = parseInt(times[0]);
+																- var minute = parseInt(times[1]);
+																- if (hour > now_hour || (now_hour == hour && minute > now_minute))
+																	span.near-time= schedule_arr[i].time[k]
+																	- break;
+																- else
+																	span.time= schedule_arr[i].time[k]
+													- if(movie_arr[j].intro != null && movie_arr[j].intro.length >= 300)
+														p.des= movie_arr[j].intro.substr(0,300) + "..."
+													- else
+														p.des #{movie_arr[j].intro}
+												//div.slide1-hiden
+													div.slide1-hiden-bg.container
+													div.slide1-hiden-content
+														- for(var j = 0 ; j < schedule_arr[i].time.length ; j++)
+															p.time= schedule_arr[i].time[j]
+
+						.visible-xs-block
+							ul.list-group
+								- for(var i in movie_arr)
+									-if(i % 2 == 0)
+										li.list-group-item.list-group-item-info
+											.col-xs-4
+												.thumbnail
+													a(href="http://", target="_blank"): img(src=movie_arr[i].image, alt="")
+											.col-xs-8
+												a(href="http://", target="_blank"): p= movie_arr[i].name.toUpperCase()
+												//h6.contents= movie_arr[i].intro.substr(0,20)
+
+											.clearfix
+									- else
+										li.list-group-item
+											.col-xs-4
+												.thumbnail
+													a(href="http://", target="_blank"): img(src=movie_arr[i].image, alt="")
+											.col-xs-8
+												a(href="http://", target="_blank"): p= movie_arr[i].name.toUpperCase()
+												//h6.contents= movie_arr[i].intro.substr(0,20)
+
+											.clearfix
+		.clearfix
+		//.row#commingsoon
+			.col-sm-12.col-md-12.col-lg-12
+				.panel.panel-default
+					.panel-heading PHIM SẮP CHIẾU
+					.panel-body
+						.hidden-xs#slidekuty
+							ul.bjqs
+								- var _count = 0;
+								- for(var i = 0; i < commingsoonMovieData.length; i+=3) //
+									li.col-sm-12.col-md-12.col-lg-12
+										- for(var j = i; j < commingsoonMovieData.length; j++)
+											- if(parseInt(_count) == 3)
+												- _count = 0;
+												- break;
+											.col-sm-4.col-md-4.col-lg-4.col-1
+												.title-movie
+													- if(commingsoonMovieData[j].name.length > 27)
+														a(href='/detailMovie/commingSoonMovie/'+commingsoonMovieData[j].company+'/'+commingsoonMovieData[j]._id): h4= commingsoonMovieData[j].name.substr(0,24).toUpperCase()+'...'
+													- else
+														a(href='/detailMovie/commingSoonMovie/'+commingsoonMovieData[j].company+'/'+commingsoonMovieData[j]._id): h4= commingsoonMovieData[j].name.toUpperCase()
+												.thumbnail
+													a(href='/detailMovie/commingSoonMovie/'+commingsoonMovieData[j].company+'/'+commingsoonMovieData[j]._id): img(src= commingsoonMovieData[j].image, alt= commingsoonMovieData[j].name)
+												.small-info
+													- if(commingsoonMovieData[j].intro != 'undefined' && commingsoonMovieData[j].intro != null)
+														- if(commingsoonMovieData[j].intro.length > 200)
+															span= commingsoonMovieData[j].intro.substr(0, 200) + '...'
+														- else
+															span= commingsoonMovieData[j].intro
+												//.link-detail
+													a(href="/phimsapchieu").btn Chi tiết <span class='glyphicon glyphicon-circle-arrow-right'></span>
+											- _count++
+										//-for(var j = 0; j < 3; j++)
+											.col-sm-4.col-md-4.col-lg-4.col-1
+												.thumbnail
+													a(href='/phimsapchieu'): img(src="/img/rap/lotte/introduce_cinema.JPG", alt="")
+												.small-info
+													span Lorem ipsum dolor sit amet, consectetur Encididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+												.link-detail
+													a(href="/phimsapchieu").btn Chi tiết <span class='glyphicon glyphicon-circle-arrow-right'></span>
+
+							//.clearfix
+						.visible-xs-block
+							ul.list-group
+								li.list-group-item
+									.col-xs-4
+										.thumbnail
+											a(href='/phimsapchieu'): img(src="/img/rap/lotte/introduce_cinema.JPG", alt="")
+									.col-xs-8
+										a(href="http://", target="_blank"): p Title
+									.clearfix
+								li.list-group-item
+									.col-xs-4
+										.thumbnail
+											a(href='/phimsapchieu'): img(src="/img/rap/lotte/introduce_cinema.JPG", alt="")
+									.col-xs-8
+										a(href="http://", target="_blank"): p Title
+									.clearfix
+								li.list-group-item
+									.col-xs-4
+										.thumbnail
+											a(href='/phimsapchieu'): img(src="/img/rap/lotte/introduce_cinema.JPG", alt="")
+									.col-xs-8
+										a(href="http://", target="_blank"): p Title
+									.clearfix
+								li.list-group-item
+									.col-xs-4
+										.thumbnail
+											a(href='/phimsapchieu'): img(src="/img/rap/lotte/introduce_cinema.JPG", alt="")
+									.col-xs-8
+										a(href="http://", target="_blank"): p Title
+									.clearfix
+		.clearfix
+		.row#promotion
+			.col-sm-12.col-md-12.col-lg-12
+				.panel.panel-default
+					.panel-heading TIN TỨC & ƯU ĐÃI
+					.panel-body.neighborhood-guides
+						#slide2.hidden-xs
+							ul.bjqs
+								- for(var i in promotion_arr)
+									li.col-sm-12.col-md-12.col-lg-12.slide2
+										.col-sm-4.col-md-4.col-lg-4
+											.thumbnail
+												a(href='/detail-promotion/'+promotion_arr[i].company+'/'+promotion_arr[i]._id): img(src=promotion_arr[i].image, alt="")
+										.col-sm-8.col-md-8.col-lg-8
+											a(href='/detail-promotion/'+promotion_arr[i].company+'/'+promotion_arr[i]._id): h2= promotion_arr[i].title.replace(":","")
+											br/
+											p= promotion_arr[i].company.toUpperCase()+ " CINEMA"
+											- if(promotion_arr[i].content != 'undefined' && promotion_arr[i].content != null)
+												br/
+												span= promotion_arr[i].content.replace(/&#(\d+);/g,function(match, num){return String.fromCharCode(num);}).replace(/&#x([A-Za-z0-9]+);/g, function(match, num){return String.fromCharCode(parseInt(num, 16));}).replace(/<.*>/g, '').replace(/<\/.*>/g,'').substr(0,200)+'...'
+						.visible-xs-block
+							ul.list-group
+								- for(var i in promotion_arr)
+									- if(i % 2 == 0)
+										li.list-group-item.list-group-item-info
+											.col-xs-4
+												.thumbnail
+													a(href='/detail-promotion/'+promotion_arr[i].company+'/'+promotion_arr[i]._id, target="_blank"): img(src=promotion_arr[i].image, alt="")
+											.col-xs-8
+												a(href=""): p= promotion_arr[i].title.replace(":","")
+												p= promotion_arr[i].company.toUpperCase()
+											.clearfix
+									- else
+										li.list-group-item
+											.col-xs-4
+												.thumbnail
+													a(href='/detail-promotion/'+promotion_arr[i].company+'/'+promotion_arr[i]._id, target="_blank"): img(src=promotion_arr[i].image, alt="")
+											.col-xs-8
+												a(href=""): p= promotion_arr[i].title.replace(":","")
+												p= promotion_arr[i].company.toUpperCase()
+											.clearfix
+										//hr/
+		.clearfix
+		
+
+		.clearfix
+	hr/
+	//footer
+	.footer.row
+		include footer
+	script.
+		$("#slide1").bjqs({
+			animtype: 'fade',
+			animspeed: 3000,
+			automatic: true,
+			showcontrols : true,
+			width: 1100,
+			height: 260,
+			nexttext : '', // Text for 'next' button (can use HTML)
+			prevtext : '', // Text for 'previous' button (can use HTML)
+			responsive: true
+		});
+		$("#slidekuty").bjqs({
+			animtype: 'slide',
+			animspeed: 2000,
+			automatic: true,
+			showcontrols : true,
+			width: 1100,
+			height: 400,
+			nexttext : '', // Text for 'next' button (can use HTML)
+			prevtext : '', // Text for 'previous' button (can use HTML)
+			responsive: true
+		});
+		$("#slide2").bjqs({
+			animtype: 'slide',
+			animspeed: 100000,
+			automatic: true,
+			showcontrols : true,
+			width: 1100,
+			height: 206,
+			nexttext : '', // Text for 'next' button (can use HTML)
+			prevtext : '', // Text for 'previous' button (can use HTML)
+			responsive: true
+		});

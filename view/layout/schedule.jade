@@ -1,0 +1,319 @@
+extends headfilm
+
+block headHtml
+	link(rel='stylesheet',type='text/css',href='/css/schedule.css')
+
+block content
+	hr/
+	h1 LỊCH CHIẾU
+	.col-md-10.col-lg-10.col-md-offset-1.col-lg-offset-1
+		.col-md-5.col-lg-5#column1
+			p= "Chọn cụm rạp : "
+			div#cinema.fake-select
+					select#cinema-select(onchange="setDepartmentSelect()")
+						- for( var i = 0 ; i < company_arr.length; i++)
+							option(value= company_arr[i])= company_arr[i].toUpperCase()
+			p= "Chọn rạp : "
+			div#cinema.fake-select
+				select#department-select(onchange="setMovieSelect()")
+
+			p= "Chọn phim : "
+			div#cinema.fake-select
+				select#movie-select(onchange="setDateSelect()")
+
+			p= "Chọn ngày :"
+			div#cinema.fake-select
+				select#date-select(onchange="setTimeSelect()")
+
+			p= "Chọn giờ :"
+			div#cinema.fake-select
+				select#time-select
+
+			br/
+			button.btn(type='button',onclick="displaySchedule()")= "Find"
+
+		.col-md-7.col-lg-7
+			#column2
+	.clearfix
+	hr/
+	.footer
+		include footer
+	script.
+		var schedule_arr = !{JSON.stringify(schedule_arr)};
+		function setDepartmentSelect(){
+			var department_arr = [];
+			var selected_cinema = $("#cinema-select").val();
+			$("#department-select").empty();
+			for(var i = 0 ; i < schedule_arr.length ; i++){
+				if(schedule_arr[i].company == selected_cinema && department_arr.indexOf(schedule_arr[i].cinema)==-1){
+					department_arr.push(schedule_arr[i].cinema);
+					$("#department-select").append("<option value='"+schedule_arr[i].cinema+"'>"+schedule_arr[i].cinema+"</option>");
+				}
+			}
+			setMovieSelect();
+		}
+		setDepartmentSelect();
+		function setMovieSelect(){
+			var movie_arr= [];
+			var selected_department = $("#department-select").val();
+			$("#movie-select").empty();
+			$("#movie-select").append("<option value=''>Chọn Phim</option>");
+			for(var i = 0 ; i < schedule_arr.length ; i++){
+				if(schedule_arr[i].cinema == selected_department && movie_arr.indexOf(schedule_arr[i].movie)==-1){
+					movie_arr.push(schedule_arr[i].movie);
+					$("#movie-select").append("<option value='"+schedule_arr[i].movie+"'>"+schedule_arr[i].movie+"</option>");
+				}
+			}
+			setDateSelect();
+		}
+		setMovieSelect();
+		function setDateSelect(){
+			var date_arr = [];
+			var selected_department = $("#department-select").val();
+			var selected_movie = $("#movie-select").val();
+			$("#date-select").empty();
+			$("#date-select").append("<option value=''>Chọn ngày</option>");
+			if(selected_movie == ""){
+				for(var i = 0; i< schedule_arr.length; i++){
+					if(schedule_arr[i].cinema == selected_department && date_arr.indexOf(schedule_arr[i].date)==-1){
+						date_arr.push(schedule_arr[i].date);
+						$("#date-select").append("<option value='"+schedule_arr[i].date+"'>"+schedule_arr[i].date+"</option>");
+					}
+				}
+			}
+			if(selected_movie != ""){
+				for(var i = 0; i< schedule_arr.length; i++){
+					if(schedule_arr[i].cinema == selected_department && schedule_arr[i].movie == selected_movie && date_arr.indexOf(schedule_arr[i].date)==-1){
+						date_arr.push(schedule_arr[i].date);
+						$("#date-select").append("<option value='"+schedule_arr[i].date+"'>"+schedule_arr[i].date+"</option>");
+					}
+				}
+			}
+			setTimeSelect();
+		}
+		setDateSelect();
+		function setTimeSelect(){
+			//var time_arr = [];
+			var selected_department = $("#department-select").val();
+			var selected_date = $("#date-select").val();
+			var selected_movie = $("#movie-select").val();
+			$("#time-select").empty();
+			$("#time-select").append("<option value=''>Chọn giờ</option>");
+							//if((selected_movie == "" && selected_date == "") || (selected_movie != "" && selected_date == "")) // ko hien gio
+							//- if(selected_movie != "" && selected_date != ""){ //alert("1")
+							//- 	for(var i = 0; i< schedule_arr.length; i++){
+							//- 		for(var j = 0; j < schedule_arr[i].time.length; j++){
+							//- 			if(schedule_arr[i].cinema == selected_department && schedule_arr[i].date == selected_date && schedule_arr[i].movie == selected_movie && time_arr.indexOf(schedule_arr[i]['time'][j])==-1){
+							//- 				time_arr.push(schedule_arr[i]['time'][j]);
+							//- 				//$("#time-select").append("<option value='"+schedule_arr[i]['time'][j]+"'>"+schedule_arr[i]['time'][j]+"</option>");
+							//- 			}
+							//- 		}
+							//- 	}
+							//- }
+			if(!((selected_movie != "" && selected_date != "") || (selected_movie != "" && selected_date == ""))){ //alert("2")
+				//- for(var i = 0; i< schedule_arr.length; i++){
+				//- 	for(var j = 0; j < schedule_arr[i].time.length; j++){
+				//- 		if(schedule_arr[i].cinema == selected_department && schedule_arr[i].date == selected_date && time_arr.indexOf(schedule_arr[i]['time'][j])==-1){
+				//- 			time_arr.push(schedule_arr[i]['time'][j]);
+				//- 			//$("#time-select").append("<option value='"+schedule_arr[i]['time'][j]+"'>"+schedule_arr[i]['time'][j]+"</option>");
+				//- 		}
+				//- 	}
+				//- }
+				$("#time-select").append("<option value='08:00-12:59'>08:00 - 12:59</option>");
+				$("#time-select").append("<option value='13:00-17:59'>13:00 - 17:59</option>");
+				$("#time-select").append("<option value='18:00-23:00'>18:00 - 23:00</option>");
+			}
+			//- time_arr.sort();
+			//- for(var i = 0; i < time_arr.length; i++){
+			//- 	$("#time-select").append("<option value='"+time_arr[i]+"'>"+time_arr[i]+"</option>");
+			//- }
+		}
+		setDateSelect();
+		function displaySchedule(){
+			var selected_department = $("#department-select").val();
+			var selected_movie = $("#movie-select").val();
+			var selected_date = $("#date-select").val();
+			var selected_time = $("#time-select").val(),
+				arr_time = selected_time.split('-'),
+				start_time = arr_time[0],
+				end_time   = arr_time[1];
+			var movie_arr_of_time = "";
+			$("#column2").empty();
+			$("#column2").append("<h1></h1>");
+			$("#column2 h1").html($("#movie-select").val());
+			$("#column2").append("<ul class='times'></ul>");
+			for(var i = 0 ; i < schedule_arr.length; i++){
+				if(schedule_arr[i].cinema == selected_department){
+					if(selected_movie && schedule_arr[i].movie == selected_movie ){
+						if(!selected_date){ // chon movie, ko chon ngay
+							innerHTML = "";
+							for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+								innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+							}
+							innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+							innerHTML = "<p class='date'>" + schedule_arr[i].date + "</p>" + innerHTML;
+							innerHTML = "<li>" + innerHTML + "</li>";
+							$("#column2 ul").append(innerHTML);
+						}
+						if(selected_date && selected_date == schedule_arr[i].date){  // chon movie, chon ngay
+							innerHTML = "";
+							for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+								innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+							}
+							innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+							innerHTML = "<p class='date'>" + schedule_arr[i].date + "</p>" + innerHTML;
+							innerHTML = "<li>" + innerHTML + "</li>";
+							$("#column2 ul").append(innerHTML);
+						}
+					}
+					if(!selected_movie){
+						if(!selected_date && !selected_time){// ko chon movie va ngay gio
+							$("#column2 h1").text(selected_department);
+							innerHTML = "";
+							for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+								innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+							}
+							innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+							innerHTML = "<p class='date'>" + schedule_arr[i].date + "</p>" + innerHTML;
+							innerHTML = "<p class='title'>" + schedule_arr[i].movie + "</p>" + innerHTML;
+							innerHTML = "<li>" + innerHTML + "</li>";
+							$("#column2 ul").append(innerHTML);
+						}
+						if(!selected_date && selected_time != ""){ // ko chon phim, ko chon ngay, BUT chon gio
+							$("#column2 h1").text(" --- " + selected_time + " --- ");
+							innerHTML = "";
+							for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+								if(schedule_arr[i].time[j].trim() >= start_time && schedule_arr[i].time[j].trim() <= end_time){
+									innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+								}
+							}
+							if(innerHTML == "") continue;
+							innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+							innerHTML = "<p class='date'>" + schedule_arr[i].date + "</p>" + innerHTML;
+							if(i == 0 || schedule_arr[i].movie != schedule_arr[i-1].movie){
+								innerHTML = "<p class='title'>" + schedule_arr[i].movie + "</p>" + innerHTML;
+							}
+							innerHTML = "<li>" + innerHTML + "</li>";
+							$("#column2 ul").append(innerHTML);
+						}
+						if(selected_date && selected_date == schedule_arr[i].date && !selected_time){
+							$("#column2 h1").text(schedule_arr[i].date);
+							innerHTML = "";
+							for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+								innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+							}
+							innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+							innerHTML = "<p class='title'>" + schedule_arr[i].movie + "</p>" + innerHTML;
+							innerHTML = "<li>" + innerHTML + "</li>";
+							$("#column2 ul").append(innerHTML);
+						}
+						if(selected_date && selected_time && selected_date == schedule_arr[i].date){
+							//movie_arr_of_time += "<p><strong>"+schedule_arr[i].movie+"</strong></p>";
+							$("#column2 h1").text(schedule_arr[i].date + " --- " + selected_time);
+							innerHTML = "";
+							for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+								if(schedule_arr[i].time[j].trim() >= start_time && schedule_arr[i].time[j].trim() <= end_time){
+									innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+								}
+							}
+							if(innerHTML == "") continue;
+							innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+							innerHTML = "<p class='title'>" + schedule_arr[i].movie + "</p>" + innerHTML;
+							innerHTML = "<li>" + innerHTML + "</li>";
+							$("#column2 ul").append(innerHTML);
+						}
+					}
+				}
+			}
+			//- if(movie_arr_of_time != ""){
+			//- 	$("#column2 h1").text(selected_date);
+			//- 	innerHTML = "";
+			//- 	innerHTML   = "<div class='movies'>" + movie_arr_of_time + "</div>";
+			//- 	innerHTML = "<p class='date'>" + selected_time + "</p>" + innerHTML;
+			//- 	innerHTML = "<li>" + innerHTML + "</li>";
+			//- 	$("#column2 ul").append(innerHTML);
+			//- }
+		}
+		//displaySchedule();
+	//table#column.container
+		tr.container
+			td#column1
+				p= "Select Cinema : "
+				div#cinema.fake-select
+					select#cinema-select(onchange="setDepartmentSelect()")
+						- for( var i = 0 ; i < company_arr.length; i++)
+							option(value= company_arr[i])= company_arr[i].toUpperCase()
+				p= "Select Department : "
+				div#cinema.fake-select
+					select#department-select(onchange="setMovieSelect()")
+						script.
+							var schedule_arr = !{JSON.stringify(schedule_arr)};
+							function setDepartmentSelect(){
+								var department_arr = [];
+								var selected_cinema = $("#cinema-select").val();
+								$("#department-select").empty();
+								for(var i = 0 ; i < schedule_arr.length ; i++){
+									if(schedule_arr[i].company == selected_cinema && department_arr.indexOf(schedule_arr[i].cinema)==-1){
+										department_arr.push(schedule_arr[i].cinema);
+										$("#department-select").append("<option value='"+schedule_arr[i].cinema+"'>"+schedule_arr[i].cinema+"</option>");
+									}
+								}
+								setMovieSelect();
+							}
+							setDepartmentSelect();
+				p= "Select Movie : "
+				div#cinema.fake-select
+					select#movie-select
+						script.
+							function setMovieSelect(){
+								var movie_arr= [];
+								var selected_department = $("#department-select").val();
+								$("#movie-select").empty();
+								$("#movie-select").append("<option value=''>Chọn Phim</option>");
+								for(var i = 0 ; i < schedule_arr.length ; i++){
+									if(schedule_arr[i].cinema == selected_department && movie_arr.indexOf(schedule_arr[i].movie)==-1){
+										movie_arr.push(schedule_arr[i].movie);
+										$("#movie-select").append("<option value='"+schedule_arr[i].movie+"'>"+schedule_arr[i].movie+"</option>");
+									}
+								}
+
+							}
+							setMovieSelect();
+				p
+					button.btn(type='button',onclick="displaySchedule()")= "Find"
+						script.
+							function displaySchedule(){
+								var selected_movie = $("#movie-select").val();
+								var selected_department = $("#department-select").val();
+								$("#column2").empty();
+								$("#column2").append("<h1></h1>");
+								$("#column2 h1").html($("#movie-select").val());
+								$("#column2").append("<ul class='times'></ul>");
+								for(var i = 0 ; i < schedule_arr.length; i++){
+									if(schedule_arr[i].cinema == selected_department){
+										if(selected_movie && schedule_arr[i].movie == selected_movie ){
+											innerHTML = "";
+											for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+												innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+											}
+											innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+											innerHTML = "<p class='date'>" + schedule_arr[i].date + "</p>" + innerHTML;
+											innerHTML = "<li>" + innerHTML + "</li>";
+											$("#column2 ul").append(innerHTML);
+										}
+										if(!selected_movie){
+											innerHTML = "";
+											for(var j = 0 ; j < schedule_arr[i].time.length; j++){
+												innerHTML = innerHTML + "<span>"+ schedule_arr[i].time[j] +"</span>";
+											}
+											innerHTML   = "<div class='hours'>" + innerHTML + "</div>";
+											innerHTML = "<p class='date'>" + schedule_arr[i].date + "</p>" + innerHTML;
+											innerHTML = "<p class='date'>" + schedule_arr[i].movie + "</p>" + innerHTML;
+											innerHTML = "<li>" + innerHTML + "</li>";
+											$("#column2 ul").append(innerHTML);
+										}
+									}
+								}
+							}
+							displaySchedule();
+			td#column2

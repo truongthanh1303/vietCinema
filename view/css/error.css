@@ -1,0 +1,12 @@
+#error p{
+	color: white;
+	background: #F5A9BC;
+	border: 3px solid red;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: 500px;
+	text-align: center;
+	margin: auto;
+	font-family: 'title_font';
+	font-weight: bold;
+}

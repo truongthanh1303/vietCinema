@@ -1,0 +1,30 @@
+extends headfilm
+block headHtml
+	link(rel='stylesheet',type='text/css',href='/css/success.css')
+
+block content
+	div#success
+		p= message
+			br/
+			span.text
+		br/
+		div.progress
+			div.progress-bar.progress-bar-info.progress-bar-striped(role='progressbar', aria-valuenow="5", aria-valuemin="0", aria-valuemax="5", style="width: 100%")
+				span.sr-only redirect after 5 seconds
+	script.
+		var redirect = !{JSON.stringify(redirect)};
+		var timeout = 5;
+		if(redirect){
+			//- setTimeout(function(){
+			//- 	window.location = redirect;
+			//- },5000);
+			setInterval(function(){
+				if(timeout == 0){
+					window.location = redirect;
+				}else{
+					$("div.progress .progress-bar-info").attr('aria-valuenow',timeout).css('width',timeout*20 +'%');
+					$("span.text").text("Chuyển về trang chủ sau "+timeout+" giây!");
+					timeout--;
+				}
+			}, 1000);
+		}

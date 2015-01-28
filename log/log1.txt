@@ -1,0 +1,354 @@
+<span class="group" data-showTime-id="11294"  rel="today" data-time="1411232400">
+<strong>21/09</strong> - Chủ Nhật
+</span>
+<ul class="list-times" data-day="today">
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11294">
+		<a href="/vi/get-Gsc/29/145/11294/vi">12:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11295">
+		<a href="/vi/get-Gsc/29/145/11295/vi">16:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11296">
+		<a href="/vi/get-Gsc/29/145/11296/vi">20:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11297">
+		<a href="/vi/get-Gsc/29/146/11297/vi">10:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11298">
+		<a href="/vi/get-Gsc/29/146/11298/vi">12:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11299">
+		<a href="/vi/get-Gsc/29/146/11299/vi">14:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11300">
+		<a href="/vi/get-Gsc/29/146/11300/vi">15:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11301">
+		<a href="/vi/get-Gsc/29/146/11301/vi">17:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11302">
+		<a href="/vi/get-Gsc/29/146/11302/vi">19:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11303">
+		<a href="/vi/get-Gsc/29/146/11303/vi">21:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11304">
+		<a href="/vi/get-Gsc/29/143/11304/vi">10:50</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11305">
+		<a href="/vi/get-Gsc/29/143/11305/vi">12:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11306">
+		<a href="/vi/get-Gsc/29/143/11306/vi">14:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11307">
+		<a href="/vi/get-Gsc/29/143/11307/vi">15:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11308">
+		<a href="/vi/get-Gsc/29/143/11308/vi">17:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11309">
+		<a href="/vi/get-Gsc/29/143/11309/vi">19:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11310">
+		<a href="/vi/get-Gsc/29/143/11310/vi">21:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="144" data-showtime-id="11311">
+		<a href="/vi/get-Gsc/29/144/11311/vi">10:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="144" data-showtime-id="11312">
+		<a href="/vi/get-Gsc/29/144/11312/vi">18:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11313">
+		<a href="/vi/get-Gsc/29/147/11313/vi">10:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11314">
+		<a href="/vi/get-Gsc/29/147/11314/vi">12:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11315">
+		<a href="/vi/get-Gsc/29/147/11315/vi">14:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11316">
+		<a href="/vi/get-Gsc/29/147/11316/vi">16:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11317">
+		<a href="/vi/get-Gsc/29/147/11317/vi">17:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11318">
+		<a href="/vi/get-Gsc/29/147/11318/vi">19:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11319">
+		<a href="/vi/get-Gsc/29/147/11319/vi">21:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="141" data-showtime-id="11320">
+		<a href="/vi/get-Gsc/29/141/11320/vi">14:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11321">
+		<a href="/vi/get-Gsc/29/148/11321/vi">10:20</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11322">
+		<a href="/vi/get-Gsc/29/148/11322/vi">12:25</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11323">
+		<a href="/vi/get-Gsc/29/148/11323/vi">14:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11324">
+		<a href="/vi/get-Gsc/29/148/11324/vi">16:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11325">
+		<a href="/vi/get-Gsc/29/148/11325/vi">18:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11326">
+		<a href="/vi/get-Gsc/29/148/11326/vi">20:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11327">
+		<a href="/vi/get-Gsc/29/142/11327/vi">11:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11328">
+		<a href="/vi/get-Gsc/29/142/11328/vi">13:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11329">
+		<a href="/vi/get-Gsc/29/142/11329/vi">15:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11330">
+		<a href="/vi/get-Gsc/29/142/11330/vi">18:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11331">
+		<a href="/vi/get-Gsc/29/142/11331/vi">20:15</a>
+	</li>
+</ul>
+<span class="group" data-showTime-id="11332"  rel="3days" data-time="1411318800"><strong>22/09</strong> - Thứ 2</span>
+<ul class="list-times" data-day="3days">
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11332">
+		<a href="/vi/get-Gsc/29/145/11332/vi">12:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11333">
+		<a href="/vi/get-Gsc/29/145/11333/vi">16:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11334">
+		<a href="/vi/get-Gsc/29/145/11334/vi">20:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11335">
+		<a href="/vi/get-Gsc/29/146/11335/vi">10:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11336">
+		<a href="/vi/get-Gsc/29/146/11336/vi">12:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11337">
+		<a href="/vi/get-Gsc/29/146/11337/vi">14:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11338">
+		<a href="/vi/get-Gsc/29/146/11338/vi">15:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11339">
+		<a href="/vi/get-Gsc/29/146/11339/vi">17:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11340">
+		<a href="/vi/get-Gsc/29/146/11340/vi">19:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11341">
+		<a href="/vi/get-Gsc/29/146/11341/vi">21:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11342">
+		<a href="/vi/get-Gsc/29/143/11342/vi">10:50</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11343">
+		<a href="/vi/get-Gsc/29/143/11343/vi">12:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11344">
+		<a href="/vi/get-Gsc/29/143/11344/vi">14:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11345">
+		<a href="/vi/get-Gsc/29/143/11345/vi">15:50</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11346">
+		<a href="/vi/get-Gsc/29/143/11346/vi">17:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11347">
+		<a href="/vi/get-Gsc/29/143/11347/vi">19:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11348">
+		<a href="/vi/get-Gsc/29/143/11348/vi">20:50</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="144" data-showtime-id="11349">
+		<a href="/vi/get-Gsc/29/144/11349/vi">10:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="144" data-showtime-id="11350">
+		<a href="/vi/get-Gsc/29/144/11350/vi">18:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11351">
+		<a href="/vi/get-Gsc/29/147/11351/vi">10:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11352">
+		<a href="/vi/get-Gsc/29/147/11352/vi">12:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11353">
+		<a href="/vi/get-Gsc/29/147/11353/vi">14:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11354">
+		<a href="/vi/get-Gsc/29/147/11354/vi">16:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11355">
+		<a href="/vi/get-Gsc/29/147/11355/vi">17:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11356">
+		<a href="/vi/get-Gsc/29/147/11356/vi">19:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11357">
+		<a href="/vi/get-Gsc/29/147/11357/vi">21:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="141" data-showtime-id="11358">
+		<a href="/vi/get-Gsc/29/141/11358/vi">14:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11359">
+		<a href="/vi/get-Gsc/29/148/11359/vi">10:20</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11360">
+		<a href="/vi/get-Gsc/29/148/11360/vi">12:25</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11361">
+		<a href="/vi/get-Gsc/29/148/11361/vi">14:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11362">
+		<a href="/vi/get-Gsc/29/148/11362/vi">16:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11363">
+		<a href="/vi/get-Gsc/29/148/11363/vi">18:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11364">
+		<a href="/vi/get-Gsc/29/148/11364/vi">20:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11365">
+		<a href="/vi/get-Gsc/29/142/11365/vi">11:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11366">
+		<a href="/vi/get-Gsc/29/142/11366/vi">13:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11367">
+		<a href="/vi/get-Gsc/29/142/11367/vi">15:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11368">
+		<a href="/vi/get-Gsc/29/142/11368/vi">18:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11369">
+		<a href="/vi/get-Gsc/29/142/11369/vi">20:15</a>
+	</li>
+</ul>
+<span class="group" data-showTime-id="11370"  rel="3days" data-time="1411405200"><strong>23/09</strong> - Thứ 3</span>
+<ul class="list-times" data-day="3days">
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11370">
+		<a href="/vi/get-Gsc/29/145/11370/vi">12:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11371">
+		<a href="/vi/get-Gsc/29/145/11371/vi">16:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="145" data-showtime-id="11372">
+		<a href="/vi/get-Gsc/29/145/11372/vi">20:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11373">
+		<a href="/vi/get-Gsc/29/146/11373/vi">10:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11374">
+		<a href="/vi/get-Gsc/29/146/11374/vi">12:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11375">
+		<a href="/vi/get-Gsc/29/146/11375/vi">14:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11376">
+		<a href="/vi/get-Gsc/29/146/11376/vi">15:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11377">
+		<a href="/vi/get-Gsc/29/146/11377/vi">17:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11378">
+		<a href="/vi/get-Gsc/29/146/11378/vi">19:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="146" data-showtime-id="11379">
+		<a href="/vi/get-Gsc/29/146/11379/vi">21:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11380">
+		<a href="/vi/get-Gsc/29/143/11380/vi">10:50</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11381">
+		<a href="/vi/get-Gsc/29/143/11381/vi">12:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11382">
+		<a href="/vi/get-Gsc/29/143/11382/vi">14:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11383">
+		<a href="/vi/get-Gsc/29/143/11383/vi">15:50</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11384">
+		<a href="/vi/get-Gsc/29/143/11384/vi">17:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11385">
+		<a href="/vi/get-Gsc/29/143/11385/vi">19:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="143" data-showtime-id="11386">
+		<a href="/vi/get-Gsc/29/143/11386/vi">20:50</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="144" data-showtime-id="11387">
+		<a href="/vi/get-Gsc/29/144/11387/vi">10:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="144" data-showtime-id="11388">
+		<a href="/vi/get-Gsc/29/144/11388/vi">18:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11389">
+		<a href="/vi/get-Gsc/29/147/11389/vi">10:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11390">
+		<a href="/vi/get-Gsc/29/147/11390/vi">12:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11391">
+		<a href="/vi/get-Gsc/29/147/11391/vi">14:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11392">
+		<a href="/vi/get-Gsc/29/147/11392/vi">16:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11393">
+		<a href="/vi/get-Gsc/29/147/11393/vi">17:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11394">
+		<a href="/vi/get-Gsc/29/147/11394/vi">19:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="147" data-showtime-id="11395">
+		<a href="/vi/get-Gsc/29/147/11395/vi">21:15</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="141" data-showtime-id="11396">
+		<a href="/vi/get-Gsc/29/141/11396/vi">14:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11397">
+		<a href="/vi/get-Gsc/29/148/11397/vi">10:20</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11398">
+		<a href="/vi/get-Gsc/29/148/11398/vi">12:25</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11399">
+		<a href="/vi/get-Gsc/29/148/11399/vi">14:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11400">
+		<a href="/vi/get-Gsc/29/148/11400/vi">16:35</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11401">
+		<a href="/vi/get-Gsc/29/148/11401/vi">18:40</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="148" data-showtime-id="11402">
+		<a href="/vi/get-Gsc/29/148/11402/vi">20:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11403">
+		<a href="/vi/get-Gsc/29/142/11403/vi">11:10</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11404">
+		<a href="/vi/get-Gsc/29/142/11404/vi">13:30</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11405">
+		<a href="/vi/get-Gsc/29/142/11405/vi">15:45</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11406">
+		<a href="/vi/get-Gsc/29/142/11406/vi">18:00</a>
+	</li>
+	<li class="item-time" data-cinema-id="29" data-movie-id="142" data-showtime-id="11407">
+		<a href="/vi/get-Gsc/29/142/11407/vi">20:15</a>
+	</li></ul>
+	</li>
+	<li class="grid12-6 cinemas-item" data-cinema-id="30">

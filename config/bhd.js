@@ -1,0 +1,83 @@
+var config = {
+	schedule_link:"http://bhdstar.vn/vn/movie-booking/ajax-response",
+	department_link:"http://bhdstar.vn/vn/content/tat-ca-rap-4184",
+	onScreen_movie_link	:"http://bhdstar.vn/vn/movie/browse/dang-chieu-4200",
+	replace_link	:"http://bhdstar.vn/vn/movie/movie-detail-popup?item_id=",
+	commingSoon_movie_link	:"http://bhdstar.vn/vn/movie/browse/sap-chieu-4202",
+	promotion_link		:"http://bhdstar.vn/vn/content/khuyen-mai-2603",
+	schedule	: {
+		param_set:{
+			"mode"			: "ajax",
+			"reponse_type"	: "json",
+			"opt_chain"		: "cinema",
+			"opt_tech"		: "*",
+		},
+		department_param_set:{
+			"type"	: "cinema",
+		},
+		movie_param	: "opt_cinema",
+		movie_param_set:{
+			"type"	: "movie",
+		},
+		date_param	: "opt_movie",
+		date_param_set	:{
+			"type"	: "date",
+		},
+		time_param	: "opt_date",
+		time_param_set	:{
+			"type"	: "time",
+		},		
+	},
+	department	: {
+		container 	: "div#news-list > div div.blackbox",
+		image		: "div#news-list > div > img",
+		name		: "h2",
+		address		: "div.blackbox div:nth-of-type(1) div.right",
+		phone		: "div.blackbox div:nth-of-type(2) div.right",
+		email		: "div.blackbox div:nth-of-type(3) div.right",
+		note		: "div.blackbox div:nth-of-type(4) div.right",
+		open_time	: "div.blackbox div:nth-of-type(5) div.right",		
+	},
+	onScreen_movie	:{
+		container		: "#movie-browse > div > div:nth-of-type(2) > div:first-of-type a",
+		image			: "#movie-browse > div > div:first-of-type img",
+		info_container	: "div.fancybox-movie-detail.engrave-light div:nth-of-type(3) div:first-of-type",
+		intro			: "div.fancybox-movie-detail.engrave-light>div:nth-of-type(4)",
+		name			:"h1",
+		trailer			:"div.fancybox-movie-detail.engrave-light div:nth-of-type(1) iframe",
+		start_time		:"div.row:nth-of-type(1) > div:nth-of-type(2)",
+		kind			:"div.row:nth-of-type(2) > div:nth-of-type(2)",
+		player			:"div.row:nth-of-type(4) > div:nth-of-type(2)",
+		age 			:"div.row:nth-of-type(3) > div:nth-of-type(2)",
+		director		:"div.row:nth-of-type(3) > div:nth-of-type(2)",
+		length			:"div.row:nth-of-type(5) > div:nth-of-type(2)",
+		format			:"div.row:nth-of-type(6) > div:nth-of-type(2)",
+		version			:"div.row:nth-of-type(7) > div:nth-of-type(2)",
+		vote			:"div.row:nth-of-type(8) > div:nth-of-type(2)",
+	},
+	commingSoon_movie	:{
+		container		: "#movie-browse > div > div:nth-of-type(2) > div:first-of-type a",
+		image			: "#movie-browse > div > div:first-of-type img",
+		info_container	: "div.fancybox-movie-detail.engrave-light div:nth-of-type(3) div:first-of-type",
+		intro			: "div.fancybox-movie-detail.engrave-light>div:nth-of-type(4)",
+		name			:"h1",
+		trailer			:"div.fancybox-movie-detail.engrave-light div:nth-of-type(1) iframe",
+		start_time		:"div.row:nth-of-type(1) > div:nth-of-type(2)",
+		kind			:"div.row:nth-of-type(2) > div:nth-of-type(2)",
+		player			:"div.row:nth-of-type(4) > div:nth-of-type(2)",
+		age 			:"div.row:nth-of-type(3) > div:nth-of-type(2)",
+		director		:"div.row:nth-of-type(3) > div:nth-of-type(2)",
+		length			:"div.row:nth-of-type(5) > div:nth-of-type(2)",
+		format			:"div.row:nth-of-type(6) > div:nth-of-type(2)",
+		version			:"div.row:nth-of-type(7) > div:nth-of-type(2)",
+		vote			:"div.row:nth-of-type(8) > div:nth-of-type(2)",
+	},
+	promotion	:{
+		link 			:"#news-list > div > div >div:last-of-type a",
+		image			:"#news-list > div > img",
+		title			:"#content-reading > div:first-of-type > div:first-of-type > h2",
+		content		:"#content-reading > div:first-of-type > div:first-of-type > div:first-of-type",
+	}
+};
+
+module.exports = config;

@@ -1,0 +1,49 @@
+doctype html
+html
+	head(lang="en")
+		title #{title}
+		meta(http-equiv="content-type", content="text/html; charset=UTF-8")
+		meta(name="description", content="")
+		meta(name="keywords", content="")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;")
+		script(type="text/javascript", src="/library/jquery-2.1.1.min.js")
+		script(type="text/javascript", src="/bootstrap/js/bootstrap.min.js")
+		script(type="text/javascript", src="/library/myjs.js")
+		link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
+		link(rel="stylesheet", href="/bootstrap/css/bootstrap-theme.min.css")
+		link(rel="stylesheet", href="/css/style.css")
+		block headHtml
+	body
+		.container
+			.row#header
+				nav#nav(role="navigation").navbar.navbar-default
+					.container-fluid
+						.navbar-header
+							button(type="button", data-toggle="collapse", data-target=".navbar-ex1-collapse").navbar-toggle
+								span.sr-only Toggle navigation
+								span.icon-bar
+								span.icon-bar
+								span.icon-bar
+							button(type="button", data-toggle="collapse", data-target="#mycontent").navbar-toggle
+								span.sr-only Toggle navigation
+								span.glyphicon.glyphicon-log-in
+						.collapse.navbar-collapse.navbar-ex1-collapse.nav-justified
+							ul.nav.navbar-nav
+								li: a(href="/" ).navbar-brand <span class='glyphicon glyphicon-home'></span>
+								li.dropdown
+									a(href="#", data-toggle="dropdown").dropdown-toggle DANH SÁCH PHIM <b class='caret'></b>
+									ul.dropdown-menu(role='menu')
+										li: a(href="/phimdangchieu") PHIM ĐANG CHIẾU
+										li: a(href="/phimsapchieu") PHIM SẮP CHIẾU
+								li: a(href="/promotions") TIN TỨC/ƯU ĐÃI
+								li.dropdown
+									a(href="#", data-toggle="dropdown").dropdown-toggle THÔNG TIN CÁC RẠP PHIM <b class="caret"></b>
+									ul.dropdown-menu(role='menu')
+										li: a(href="/cinemas-info/lotte") Lotte Cinema
+										li: a(href="/cinemas-info/bhd") BHD Cinema
+										li: a(href="/cinemas-info/galaxy") Galaxy cinema
+										li: a(href="/cinemas-info/cgv") Cgv cinema
+										li: a(href="/cinemas-info/platinum") Platinum cinema
+								li: a(href="/schedule") LỊCH CHIẾU
+				#mycontent.col-md-4.col-lg-4.collapse.navbar-collapse
+			block content

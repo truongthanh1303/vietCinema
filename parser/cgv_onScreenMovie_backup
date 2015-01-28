@@ -1,0 +1,74 @@
+var config = require("./../config/config.js"),
+	cheerio = require("cheerio"),
+	fileLib  = require(config.LIB_PATH+ "file.js"),
+	textLib  = require(config.LIB_PATH+ "text.js"),
+	cgv_config = require(config.CONFIG_PATH + "cgv.js");
+
+var cgv = function(){
+}
+
+cgv.prototype.getAllMovie = function($){
+	if(!cgv_config.onScreen_movie.container || !cgv_config.onScreen_movie.image){
+		console.log("check config cgv_config.onScreen_movie.container or cgv_config.onScreen_movie.image");
+		return [];
+	}
+	var re =[];
+	var containers =  $(cgv_config.onScreen_movie.container);
+	var images =  $(cgv_config.onScreen_movie.image);
+	for(var i = 0 ; i < containers.length ; i++){
+		var obj = {};
+		obj.link = "http://m.cgv.vn" + containers.eq(i).attr("href");
+		obj.image = images.eq(i).attr("src");
+		if(obj.image.indexOf("/")==0){
+			obj.image = "http://cgv.vn" + obj.image;
+		}
+		re.push(obj);
+	}
+	return re;
+};
+
+cgv.prototype.getMovieInfo = function($){
+	var re = {};
+	if(cgv_config.onScreen_movie.name){
+		re.name = $(cgv_config.onScreen_movie.name).text();
+		//re.name = textLib.clearBlankSpace(" "+re.name+" ");
+	}
+	if(cgv_config.onScreen_movie.start_time){
+		re.start_time = $(cgv_config.onScreen_movie.start_time).text();
+		if(re.start_time.length > 10){
+			re.start_time = re.start_time.substring(0,10);
+		}
+		re.end_time = "...";
+		//re.start_time = textLib.clearBlankSpace(" "+re.start_time+" ");
+	}
+	if(cgv_config.onScreen_movie.kind){
+		re.kind = $(cgv_config.onScreen_movie.kind).text().split(", ");
+		//re.kind = textLib.clearBlankSpace(" "+re.kind+" ");
+	}
+	if(cgv_config.onScreen_movie.player){
+		re.player = $(cgv_config.onScreen_movie.player).text().split(", ");
+		//re.player = textLib.clearBlankSpace(" "+re.player+" ");
+	}
+	if(cgv_config.onScreen_movie.director){
+		re.director = $(cgv_config.onScreen_movie.director).text().split(", ");
+		//re.director = textLib.clearBlankSpace(" "+re.director+" ");
+	}
+	if(cgv_config.onScreen_movie.length){
+		re.length = $(cgv_config.onScreen_movie.length).text();
+		//re.length = textLib.clearBlankSpace(" "+re.length+" ");
+	}
+	if(cgv_config.onScreen_movie.intro){
+		re.intro = $(cgv_config.onScreen_movie.intro).text();
+		//re.company = textLib.clearBlankSpace(" "+re.company+" ");
+	}
+	if(cgv_config.onScreen_movie.trailer){
+		re.trailer = $(cgv_config.onScreen_movie.trailer).attr("href");
+	}
+	if(cgv_config.onScreen_movie.age){
+		if($(cgv_config.onScreen_movie.age).length){
+			re.age = $(cgv_config.onScreen_movie.age).text("href");
+		}
+	}
+	return re;
+};
+module.exports = cgv;

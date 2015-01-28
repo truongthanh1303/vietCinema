@@ -1,0 +1,37 @@
+extends ./headfilm.jade
+block content
+	#detail-promotion.row
+		.title-info
+			h1 TIN TỨC - KHUYẾN MÃI
+		.col-sm-8.col-md-8.col-lg-8.col-sm-offset-2.col-md-offset-2.col-lg-offset-2
+			.detail-promotion-title
+				h3= detailPromotion[0].title
+			hr/
+			.detail-promotion-imgs.thumbnail
+				img(src= detailPromotion[0].image, alt="")
+			.detail-promotion-info
+				- if(detailPromotion[0].company == "galaxy" || detailPromotion[0].company == "bhd")
+					-var content = detailPromotion[0].content.replace(/\n/g,"");
+					script.
+						$(".detail-promotion-info").append("<p></p>");
+						$(".detail-promotion-info p").html('!{content}');
+				- else if(detailPromotion[0].company == "lotte")
+					- var content = detailPromotion[0].content.replace(/\r\n/g,"<br/>");
+					p= content
+				- else
+					p=detailPromotion[0].content
+				//- p Các khán giả yêu thích những bộ phim bom tấn bây giờ đã không còn phải tốn quá nhiều thời gian để mua vé trực tiếp tại rạp như trước nữa. Với hệ thống mua vé trực tuyến (booking online) không những tiết kiệm thời gian mà còn mang đến cho quý khách những tiện ích tốt nhất và ưu đãi khủng đến bất ngờ. Nhân dịp mừng sinh nhật ngân hàng Sacombank, đối tác của cụm rạp Galaxy Cinema, chúng tôi hân hạnh mang đến cho tất cả các chủ thẻ tín dụng Sacombank một chương trình khuyến mãi đặc biệt: Sacombank sẽ hoàn lại 50% giá trị giao dịch mua vé xem phim và combo khi mua trực tuyến (booking online) tại tất cả cụm rạp Galaxy Cinema từ ngày 13/10 đến ngày 26/10/2014.
+				//- ul.rules Thể lệ chương trình:
+				//- 	li Áp dụng cho chủ thẻ tín dụng quốc tế Sacombank (trừ thẻ Union Pay)
+				//- 	li Áp dụng khi mua vé 2D, 3D & combo/bắp/nước cho tất cả các ngày trong tuần kể cả thứ 7, chủ nhật trong suốt thời gian diễn ra chương trình.
+				//- 	li Chương trình giảm 50% cho chủ thẻ tín dụng quốc tế Sacombank  sẽ được hoàn tiền sau 2 ngày làm việc tiếp theo.
+				//- 	li Không hạn chế số lần mua vé đối với từng khách hàng.
+				//- 	li Chỉ áp dụng cho các giao dịch trực tuyến (booking online) tại www.galaxycinema.vn.
+				//- 	li Không áp dụng khi mua vé trực tiếp ngay tại rạp chiếu.
+				//- p Bạn đã sở hữu một chiếc thẻ tín dụng Sacombank chưa ?
+				//- p Mọi thông tin chi tiết, khách hàng vui lòng truy cập www.sacombank.com.vn hoặc liên hệ các điểm giao dịch hoặc Trung tâm Dịch vụ khách hàng Sacombank 24/7 theo số điện thoại 1900 5555 88 / 08 3526 6060 hoặc email ask@sacombank.com.
+				//- p Lưu ý: Chương trình “Sinh nhật vui – ưu đãi lớn” có thể kết thúc sớm hơn thời gian dự kiến. Quý khách hàng vui lòng truy cập www.galaxycinema.vn hoặc www.facebook.com/galaxycine.vn để biết thêm thông tin chi tiết về chương trình khuyến mãi. Đừng bỏ qua những ưu đãi hấp dẫn khi đến với cụm rạp Galaxycinema bạn nhé.
+		.clearfix
+		hr/
+	.footer.row
+		include footer

@@ -1,0 +1,207 @@
+var express = require("express"),
+	routers = express.Router();
+var ObjectId = require('mongodb').ObjectID;
+var config = require("./../config/config.js");
+var materialMap = require('./routers').materialMap;
+var textLib = require(config.LIB_PATH + "text.js");
+var _geo = require(config.WORKER_PATH + "geolocation.js");
+var geo = new _geo();
+var _rank = require(config.LIB_PATH + "rank.js");
+var rank = new _rank();
+routers.get("/",function(req,res){
+	res.render("main_layout");
+	res.end();
+
+});
+
+routers.get("/rank",function(req,res){
+	var query = req.query;
+	var longitude = req.query.longitude;
+	var latitude = req.query.latitude;
+	var schedule_arr_temp = [];
+	var cgv_schedule_arr 			= [];
+	var bhd_schedule_arr			= [];
+	var lotte_schedule_arr 			= [];
+	var galaxy_schedule_arr 		= [];
+	var platinum_schedule_arr 		= [];
+	var cgv_movie_arr 		= [];
+	var bhd_movie_arr 		= [];
+	var lotte_movie_arr 	= [];
+	var galaxy_movie_arr 	= [];
+	var platinum_movie_arr 	= [];
+	var user = null;
+	if(!req.session.user && !req.signedCookies.user){
+		res.send({error:1});
+		res.end();
+		return;
+	}
+	else{
+		if(req.session.user){
+			user = req.session.user;
+		}
+		else {
+			user = req.signedCookies.user;
+		}
+	}
+	req.cinema_model.findAllDepartment(function(err,department_arr){
+		geo.start(latitude,longitude,department_arr,function(err,distance_arr){
+			distance_arr = rank.createDistanceArr(distance_arr);
+			req.schedule_model.findAllSchedule(function(err,schedule_arr){
+				if(err){
+					res.render("error",{message:"Error getting data from database"});
+					res.end();
+					return;
+				}
+				req.onScreenMovie_model.findAllMovie(function(err,movie_arr){
+					if(err){
+						res.render("error",{message:"Error getting data from database"});
+						res.end();
+						return;
+					}
+					rank.getScheduleByCompany(schedule_arr,cgv_schedule_arr,lotte_schedule_arr,galaxy_schedule_arr,bhd_schedule_arr,platinum_schedule_arr);
+					rank.getOnScreenMovieByCompany(movie_arr,cgv_movie_arr,lotte_movie_arr,galaxy_movie_arr,bhd_movie_arr,platinum_movie_arr);
+					rank.getInfoForScheduleArr(cgv_schedule_arr,lotte_schedule_arr,galaxy_schedule_arr,bhd_schedule_arr,platinum_schedule_arr,movie_arr,cgv_movie_arr,lotte_movie_arr,galaxy_movie_arr,bhd_movie_arr,platinum_movie_arr);
+					schedule_arr_temp = rank.pushIntoOne(cgv_schedule_arr,lotte_schedule_arr,galaxy_schedule_arr,bhd_schedule_arr,platinum_schedule_arr);
+					schedule_arr_temp =rank.rankKind(schedule_arr_temp,user['favorite-kind']);
+					schedule_arr_temp = rank.rankDistance(schedule_arr_temp,distance_arr);
+					schedule_arr_temp = rank.rankDirectorPlayer(schedule_arr_temp, user['favorite-director'],'director');
+					schedule_arr_temp = rank.rankDirectorPlayer(schedule_arr_temp, user['favorite-director'],'player');
+					schedule_arr_temp = rank.rankCineplex(schedule_arr_temp, user['favorite-cinema']);
+					schedule_arr_temp = rank.pointHeapSort(schedule_arr_temp);
+					console.log(schedule_arr_temp);
+				});
+			});
+		});
+	});
+	res.send({hehe:1});
+	res.end();
+});
+
+routers.get("/ajax_check_username",function(req,res){
+	var username = req.query.username.toLowerCase();
+	req.user_model.findUsername(username,function(err,data){
+		if(!data.length){
+			res.send({success:"Username này có thể sử dụng"});
+		}
+		else{
+			res.send({error:"Username đã tồn tại"});
+		}
+		res.end();
+	});
+});
+
+routers.get("/ajax_check_email",function(req,res){
+	var email = req.query.email;
+	req.user_model.findEmail(email,function(err,data){
+		if(!data.length){
+			res.send({success:"Email này có thể sử dụng"});
+		}
+		else{
+			res.send({error:"Email đã tồn tại"});
+		}
+		res.end();
+	});
+});
+
+routers.get("/ajax_get_login_form",function(req,res){
+	if(req.session.user){
+		var username = req.session.user.username;
+		var link = "/suggestion";
+		res.send("<style type='text/css'>#login-form{text-align: center;position: fixed;top: 200px;right: -240px;-moz-transition: right 0.5s;-webkit-transition: right 0.5s; -ms-transition: right 0.5s;transition: right 0.5s; z-index:1000; }#login-form > table{width:255px;}#login-form > table > tbody > tr > td:nth-child(2){width:235px;height: 130px;background: #374551;}#login-form a{color:#A9F5F2;}#login-form:hover{right: 0px;}#login-form table span{display: block;font-weight: bold;font-size: 15px;border-radius: 8px 0 0 8px;background: #374551;width: 10px;padding: 3px 5px 3px 5px;}#login-form table{text-align: center;color: white;border-spacing: 0;}#login-form td{padding: 0px;}#login-form table table td{padding: 10px 5px 10px 5px;}#login-form table table{background: #374551;}#login-form button{background: none;border:1px solid white;border-radius: 5px;color: white;padding: 3px 7px 3px 7px;}#login-form button:hover{cursor: pointer;}</style><div id='login-form'><table><tr><td><span>L<br/>o<br/>g<br/>i<br/>n</span></td><td><p>Welcome " + username + "</p><a href='" + link + "'><p>Check new movie today!</p></a><p><button type='button' id='login-logout'>Logout</button></p></td></tr></table></div>");
+		res.end();
+	}
+	else if(req.signedCookies.user){
+		var username = req.signedCookies.user.username;
+		req.session.user = req.signedCookies.user;
+		var link = "/suggestion";
+		res.send("<style type='text/css'>#login-form{text-align: center;position: fixed;top: 200px;right: -240px;-moz-transition: right 0.5s;-webkit-transition: right 0.5s; -ms-transition: right 0.5s;transition: right 0.5s; z-index:1000; }#login-form > table{width:255px;}#login-form > table > tbody > tr > td:nth-child(2){width:235px;height: 130px;background: #374551;}#login-form a{color:#A9F5F2;}#login-form:hover{right: 0px;}#login-form table span{display: block;font-weight: bold;font-size: 15px;border-radius: 8px 0 0 8px;background: #374551;width: 10px;padding: 3px 5px 3px 5px;}#login-form table{text-align: center;color: white;border-spacing: 0;}#login-form td{padding: 0px;}#login-form table table td{padding: 10px 5px 10px 5px;}#login-form table table{background: #374551;}#login-form button{background: none;border:1px solid white;border-radius: 5px;color: white;padding: 3px 7px 3px 7px;}#login-form button:hover{cursor: pointer;}</style><div id='login-form'><table><tr><td><span>L<br/>o<br/>g<br/>i<br/>n</span></td><td><p>Welcome " + username + "</p><a href='" + link + "'><p>Check new movie today!</p></a><p><button type='button' id='login-logout'>Logout</button></p></td></tr></table></div>");
+		res.end();
+	}
+	else{
+		res.send("<style type='text/css'>#login-form > table > tbody > tr > td:nth-child(2){width:235px;height: 130px;background: #374551;}#login-form a{color:#A9F5F2;} #login-form > table{width:255px;} #login-form:hover{right: 0px;}#login-form{z-index:1000;position: fixed;top: 200px;right: -240px;-moz-transition: right 0.5s;-webkit-transition: right 0.5s;-ms-transition: right 0.5s;transition: right 0.5s;;text-align: center;}#login-form table span{display: block;font-weight: bold;font-size: 15px;border-radius: 8px 0 0 8px;background: #374551;width: 10px;padding: 3px 5px 3px 5px;}#login-form table{text-align: center;color: white;border-spacing: 0;}#login-form td{padding: 0px;}#login-form table table td{padding: 10px 5px 10px 5px;}#login-form table table{background: #374551;}#login-form button{background: none;border:1px solid white;border-radius: 5px;color: white;padding: 3px 7px 3px 7px;}#login-form button:hover{cursor: pointer;}</style><div id='login-form'><table><tr><td><span>L<br/>o<br/>g<br/>i<br/>n</span></td><td><table><tr><td>Username :</td><td><input id='login-username' type='text'></td></tr><tr><td>Password : </td><td ><input id='login-password' type='password'></td></tr><tr><td colspan='2'><button id='login-btn' type='button'>Login</button></td></tr></table></td></tr></table></div>");
+		res.end();
+	}
+});
+
+
+routers.get("/menu_ajax",function(req,res){
+	res.render("main_layout", {company_arr: req.company_arr});
+	res.end();
+});
+
+routers.post("/selectCineplex", function(req, res){
+	var dataReceived = req.body._id,
+		company = req.body.company;
+	console.log(dataReceived);
+	req.cinema_model.find({'_id': new ObjectId(dataReceived)},{},function(err, data){
+		var AjaxData = {map: materialMap.place[data[0].company][data[0].name], key: materialMap.key, _data: data};
+		res.send(AjaxData);
+		res.end();
+		console.log(AjaxData);
+	});
+});
+routers.post("/get_cineplex", function(req, res){
+	var data = req.body._data;
+	//console.log(data);
+	req.cinema_model.find({"company":data},{}, function(err, cineplex_arr_data){
+		console.log(cineplex_arr_data[0].name);
+		res.send(cineplex_arr_data);
+		res.end();
+	});
+});
+routers.post("/get_list_film", function(req, res){
+	var company = req.body.company;
+	var typeOfFilm = req.body.typeFilm;
+	req[typeOfFilm+'_model'].find({"company":company},{}, function(err, data){
+		if(err) console.log(err);
+		//console.log(data);
+		var _html = "";
+		var intro = "";
+
+		for(var i in data){
+			if(company == "lotte"){
+				intro = "Have not intro yet...";
+			}else{
+				intro = data[i].intro.substr(0, 100)+"...";
+			}
+			_html += "<div class='col-sm-3 col-md-3 col-lg-3'>"+
+					 "<div class='thumbnail'><img src='"+data[i].image+"'></div>"+
+					 "<div class='movieTitle'><h3><a href='/detailMovie/"+typeOfFilm+"/"+data[i].company+"/"+data[i]["_id"]+"'>"+data[i].name.substr(0, textLib.countSpace(data[i].name)).toUpperCase()+"</a></h3></div>"+
+					 "<div class='small-info'><span>"+intro+"</span></div>"
+					 +"</div>";
+			if(parseInt((parseInt(i)+1)%4) == 0){
+				_html += "<div class='clearfix'></div><hr>";
+			}
+		}
+		res.send(_html);
+		res.end();
+	});
+});
+routers.post('/get_list_promotion', function(req, res){
+	var company = req.body.company;
+	req.promotion_model.find({"company":company},{}, function(err, promotion_data_arr){
+		if(err) console.log(err);
+		var _html = "";
+		var _content = "";
+		for(var i in promotion_data_arr){
+			/*if(company == 'galaxy'){
+				_content = "Xem chi tiet";//unescape(promotion_data_arr[i].content.replace(/\n/g,"")).substr(0,100);
+			}else{*/
+				_content = promotion_data_arr[i].content.substr(0,100);
+			//}
+			_html += "<div class='col-sm-4 col-md-4 col-lg-4'>"+
+					 "<div class='promotion-title'><h3><a href='/detail-promotion/"+promotion_data_arr[i].company+"/"+promotion_data_arr[i]._id+"'>"+promotion_data_arr[i].title.substr(0,textLib.countSpace(promotion_data_arr[i].title)).toUpperCase()+"</a></h3></div>"+
+					 "<div class='thumbnail'><img src='"+promotion_data_arr[i].image+"', alt='"+promotion_data_arr[i].title.substr(0,textLib.countSpace(promotion_data_arr[i].title)).toUpperCase()+"'></div>"+
+					 "<div class='small-info'><span>"+_content+"...</span></div>"+
+					 "<div class='detail-button'><a class='btn btn-success' type='button' href='/detail-promotion/"+promotion_data_arr[i].company+"/"+promotion_data_arr[i]._id+"'>Chi tiết</a></div>"+
+					 "<div class='visible-xs-block'><hr></div>"
+					 +"</div>";
+			if(parseInt(i+1) % 3 == 0 && i != 0){
+				_html += "<div class='clearfix'></div><hr>";
+			}
+		}
+		res.send(_html);
+		res.end();
+	});
+});
+module.exports = routers;

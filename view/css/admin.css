@@ -1,0 +1,61 @@
+/*.panel,.panel tr{
+	width: 100%;
+	height: 600px;
+}
+.left{
+	width: 20%;
+}
+.right{
+	height: 100%;
+	width: 80%;
+}
+#page{
+	width: 100%;
+	height: 100%;
+	border: 0px;
+}*/
+/*#admin{
+	min-height: 450px;
+}*/
+nav.navbar{
+	font-size: 13px;
+}
+#admin h1{
+	text-shadow: 2px 2px #ccc;
+	font-weight: bold;
+}
+#admin a{
+	text-decoration: none;
+}
+#admin .blue-block{
+	border: 5px solid #05ceff;
+	border-radius: 10px;
+	padding: 10px 10px;
+	text-align: center;
+	font-size: 18pt;
+	font-weight: bold;
+	color: #05ceff;
+	background-color: white;
+	cursor: pointer;
+}
+#admin .blue-block span, #admin .blue-2-block span{
+	font-size: 2em;
+}
+#admin .blue-2-block{
+	border: 5px solid #05ceff;
+	border-radius: 10px;
+	padding: 30px 10px;
+	text-align: center;
+	font-size: 18pt;
+	font-weight: bold;
+	color: #05ceff;
+	background-color: white;
+	cursor: pointer;
+}
+#admin .blue-2-block a, #admin .blue-block a{
+	color: #05ceff;
+}
+#admin .blue-2-block:hover, #admin .blue-block:hover, #admin .blue-block:hover a, #admin .blue-2-block:hover a{
+	background-color: #05ceff;
+	color: white;
+}

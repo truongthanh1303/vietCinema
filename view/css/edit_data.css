@@ -1,0 +1,36 @@
+table.table tr th{
+	text-align: center;
+	background-color: #05ceff;
+	border-right: 1px solid #ccc;
+	color: white;
+}
+table.table tr th:first-of-type{
+	border-left: 1px solid #ccc;
+}
+table.table tr td{
+	padding-left: 20px;
+}
+table.table tr td:first-of-type, table.table tr td:last-of-type{
+	text-align: center;
+	padding-left: 0;
+}
+td.content{
+	overflow: hidden;
+}
+table.table tr td:hover{
+	cursor: pointer;
+}
+.modal-content{
+	top: 50px;
+}
+textarea.form-control{
+	height: 120px;
+}
+span.id-promotion, span.image-promotion, span.content, span.id-onscreenmovie, span.trailer,span.start-time, span.end-time,
+span.kind, span.player, span.director, span.length, span.version, span.image, span.intro, span.note,span.id-commingsoonmovie,
+span.image-onscreenmovie, span.image-commingsoonmovie{
+	display: none;
+}
+h1.text-center{
+	text-shadow: 2px 2px #ccc;
+}

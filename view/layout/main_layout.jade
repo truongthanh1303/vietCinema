@@ -1,0 +1,30 @@
+html
+	head
+		script(src="/js/jquery-2.1.1.min.js")
+		link(rel="stylesheet",type="text/css",href="/css/main_layout.css")
+		block include
+		block title
+	body
+		div#header.container
+			block header
+		ul#menubar
+				li.parentmenu
+					span= "V"
+					span= "i"
+					span= "e"
+					span= "t"
+					span= " Cinema"
+				li.parentmenu 
+					a(href="/")= "Home"
+				li.parentmenu= "Cinema"
+				li.parentmenu: a(href="/")= "Now Showing"
+				li.parentmenu= "Comming Soon"
+				li.parentmenu= "Special"
+		div#content.container
+			block slide1			
+			block column
+			block content
+			block slide2
+		div#footer.container
+			block footer
+		block script

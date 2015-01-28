@@ -1,0 +1,25 @@
+.add-icon:hover,.sub-icon:hover,.del-icon:hover{
+	cursor:pointer;
+}
+
+div.main-kind{
+	margin-top: 20px;
+}
+
+div.sub-kind{
+	margin-top: 10px;
+}
+div.main-kind input,div.main-kind span{
+	display: inline-block;
+	margin-left: 10px;
+}
+.indent{
+	display: inline-block;
+	width: 20px;
+}
+button{
+	margin: 5px 10px;
+}
+h1.text-center{
+	text-shadow: 2px 2px #ccc;
+}
