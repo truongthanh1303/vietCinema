@@ -40,15 +40,15 @@ app.use("/",express.static(__dirname + "/public"));
 /*------------CONFIG ROUTER----------------------*/
 
 app.use(function(req, res, next) {
-    req.cinema_model 			= cinema_model;
-    req.onScreenMovie_model 	= onScreenMovie_model;
-    req.commingSoonMovie_model 	= commingSoonMovie_model;
-    req.schedule_model 			= schedule_model;
-    req.promotion_model 		= promotion_model;
-    req.user_model 				= user_model;
-    req.point_model 			= point_model;
-    req.company_arr= company_arr;
-    next();
+  req.cinema_model 			= cinema_model;
+  req.onScreenMovie_model 	= onScreenMovie_model;
+  req.commingSoonMovie_model 	= commingSoonMovie_model;
+  req.schedule_model 			= schedule_model;
+  req.promotion_model 		= promotion_model;
+  req.user_model 				= user_model;
+  req.point_model 			= point_model;
+  req.company_arr= company_arr;
+  next();
 });
 
 app.use("/",routers);
